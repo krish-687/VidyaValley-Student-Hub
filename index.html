@@ -1,1 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidyalaya Valley Student Hub</title>
 
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f7fa;
+color:#333;
+transition:0.3s;
+}
+
+header{
+background:linear-gradient(135deg,#1e8449,#27ae60);
+color:white;
+padding:40px 20px;
+text-align:center;
+}
+
+.logo{
+width:100px;
+height:100px;
+border-radius:50%;
+background:white;
+padding:5px;
+margin-bottom:10px;
+}
+
+nav{
+background:#145a32;
+padding:15px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:0 15px;
+font-weight:bold;
+}
+
+section{
+max-width:1000px;
+margin:auto;
+padding:25px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.student-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.student{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.student h3{
+color:#1e8449;
+}
+
+.button{
+display:inline-block;
+background:#27ae60;
+color:white;
+padding:12px 20px;
+border-radius:10px;
+text-decoration:none;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.button:hover{
+background:#1e8449;
+}
+
+.gallery{
+text-align:center;
+padding:40px;
+border:2px dashed #999;
+border-radius:15px;
+font-size:20px;
+}
+
+.dark-btn{
+margin-top:15px;
+background:white;
+color:#145a32;
+padding:10px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.dark-mode{
+background:#121212;
+color:white;
+}
+
+.dark-mode .card,
+.dark-mode .student{
+background:#1e1e1e;
+color:white;
+}
+
+footer{
+background:#145a32;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<!-- Upload logo.png in GitHub repo -->
+<img src="logo.png" class="logo" alt="School Logo">
+
+<h1>🏫 Vidyalaya Valley Student Hub</h1>
+<p>Class Directory Portal</p>
+
+<button class="dark-btn" onclick="toggleDarkMode()">
+🌙 Dark Mode
+</button>
+
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#students">Students</a>
+<a href="#gallery">Gallery</a>
+<a href="#about">About</a>
+</nav>
+
+<section id="home">
+
+<div class="card">
+<h2>Welcome</h2>
+
+<p>
+Welcome to the official Vidyalaya Valley Student Hub.
+Search classmates, explore the directory,
+and stay connected with your class.
+</p>
+
+</div>
+
+</section>
+
+<section id="students">
+
+<div class="card">
+
+<h2>Student Directory</h2>
+
+<a
+class="button"
+href="YOUR_GOOGLE_FORM_LINK"
+target="_blank">
+➕ Add Your Name
+</a>
+
+<input
+type="text"
+id="search"
+placeholder="Search Student Name or Roll Number..."
+onkeyup="searchStudent()">
+
+<div class="student-grid">
+
+<div class="student">
+<h3>Krish Nigam</h3>
+<p>Roll No: 32.
+Class: 8th Div: B</p>
+</div>
+
+<div class="student">
+<h3>Krishna Kumbhar</h3>
+<p>Roll No: 30.
+Class: 8th Div: B</p>
+</div>
+
+<div class="student">
+<h3>Vaibhav Sharma </h3>
+<p>Roll No: 30.
+Class: 8th Div: A</p>
+</div>
+
+<div class="student">
+<h3>Arhan shaeik </h3>
+<p>Roll No: 32.
+Class: 8th Div: A</p>
+</div>
+
+<div class="student">
+<h3>sashkam </h3>
+<p>Roll No: 28.
+Class: 8th Div: A</p>
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+
+</section>
+
+<section id="gallery">
+
+<div class="card">
+
+<h2>Gallery</h2>
+
+<div class="gallery">
+📸 Coming Soon
+</div>
+
+</div>
+
+</section>
+
+<section id="about">
+
+<div class="card">
+
+<h2>About</h2>
+
+<p>
+This website is created for students of
+Vidyalaya Valley School.
+More features will be added in the future.
+</p>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Vidyalaya Valley Student Hub
+</footer>
+
+<script>
+
+function searchStudent(){
+
+let input =
+document.getElementById("search")
+.value.toLowerCase();
+
+let students =
+document.getElementsByClassName("student");
+
+for(let i=0;i<students.length;i++){
+
+let text =
+students[i].innerText.toLowerCase();
+
+if(text.includes(input)){
+students[i].style.display="";
+}
+else{
+students[i].style.display="none";
+}
+}
+
+}
+
+function toggleDarkMode(){
+document.body.classList.toggle("dark-mode");
+}
+
+</script>
+
+</body>
+</html>
