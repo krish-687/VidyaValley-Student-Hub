@@ -223,17 +223,21 @@ and stay connected with your class.
 
 <h2>Student Directory</h2>
 
+<h2>Student Directory</h2>
+
 <button class="button" onclick="openModal()">
 ➕ Add Your Name
 </button>
+
 <input
 type="text"
 id="search"
 placeholder="🔍 Search by Name, Roll No, Class..."
 onkeyup="searchStudent()">
-<div class="modal" id="studentModal">
-<div class="modal-content">
 
+<div class="student-grid" id="studentList"></div>
+<div class="modal-content">
+<div id="studentList"></div>
 <span class="close" onclick="closeModal()">&times;</span>
 
 <h2>Add Student</h2>
@@ -423,6 +427,26 @@ student.style.display = "";
 else{
 student.style.display = "none";
 }
+
+});
+
+}
+  function searchStudent() {
+
+const input =
+document.getElementById("search")
+.value.toLowerCase();
+
+const students =
+document.querySelectorAll("#studentList .student");
+
+students.forEach(student => {
+
+const text =
+student.innerText.toLowerCase();
+
+student.style.display =
+text.includes(input) ? "block" : "none";
 
 });
 
