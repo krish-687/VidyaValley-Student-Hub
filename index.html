@@ -12,41 +12,7 @@ padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
-select{
-width:100%;
-padding:12px;
-border:1px solid #ccc;
-border-radius:10px;
-margin-bottom:15px;
-}
 
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-justify-content:center;
-align-items:center;
-z-index:2000;
-}
-
-.modal-content{
-background:white;
-padding:25px;
-border-radius:15px;
-width:90%;
-max-width:400px;
-}
-
-.close{
-float:right;
-cursor:pointer;
-font-size:22px;
-font-weight:bold;
-}
 body{
 background:#f5f7fa;
 color:#333;
@@ -186,7 +152,7 @@ margin-top:30px;
 <!-- Upload logo.png in GitHub repo -->
 <img src="logo.png" class="logo" alt="School Logo">
 
-<h1>🏫 VidyaValley Student Hub</h1>
+<h1>🏫 Vidyalaya Valley Student Hub</h1>
 <p>Class Directory Portal</p>
 
 <button class="dark-btn" onclick="toggleDarkMode()">
@@ -208,7 +174,7 @@ margin-top:30px;
 <h2>Welcome</h2>
 
 <p>
-Welcome to the official VidyaValley Student Hub.
+Welcome to the official Vidyalaya Valley Student Hub.
 Search classmates, explore the directory,
 and stay connected with your class.
 </p>
@@ -223,50 +189,31 @@ and stay connected with your class.
 
 <h2>Student Directory</h2>
 
-<button class="button" onclick="openModal()">
+<a
+class="button"
+href="https://forms.gle/8HaBcTnhG6iYVrGK8"
+target="_blank">
 ➕ Add Your Name
-</button>
+</a>
 
-<div class="modal" id="studentModal">
-<div class="modal-content">
+<input
+type="text"
+id="search"
+placeholder="Search Student Name or Roll Number..."
+onkeyup="searchStudent()">
 
-<span class="close" onclick="closeModal()">&times;</span>
+<div class="student-grid">
 
-<h2>Add Student</h2>
-
-<input type="text" id="name" placeholder="Student Name">
-
-<input type="text" id="studentClass" placeholder="Class">
-
-<select id="division">
-<option>A</option>
-<option>B</option>
-<option>C</option>
-</select>
-
-<input type="text" id="rollNo" placeholder="Roll Number">
-
-<input type="text" id="batchNo" placeholder="Batch Number">
-
-<button class="button" id="addStudent">
-Submit
-</button>
-
-</div>
+<div class="student">
+<h3>Krish Nigam</h3>
+<p>Roll No: 32. Class-8TH. DIV-B Bacth no-2026-2027</p>
 </div>
 
 
 
+</div>
 
-
-
-
-
-
-
-
-
-
+</div>
 
 </section>
 
@@ -292,7 +239,7 @@ Submit
 
 <p>
 This website is created for students of
-VidyaValley School.
+Vidyaalley School.
 More features will be added in the future.
 </p>
 
@@ -303,102 +250,38 @@ More features will be added in the future.
 <footer>
 © 2026 VidyaValley Student Hub
 </footer>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-import {
-getFirestore,
-collection,
-addDoc,
-getDocs
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+<script>
 
-const firebaseConfig = {
-apiKey: "AIzaSyB-qeWrDn8gqCyAMe8Z-Z3DHxXKagOHEA0",
-authDomain: "vidyavalley-student-hub.firebaseapp.com",
-projectId: "vidyavalley-student-hub",
-storageBucket: "vidyavalley-student-hub.firebasestorage.app",
-messagingSenderId: "551586633384",
-appId: "1:551586633384:web:43790075f78b0ba32d549d"
-};
+function searchStudent(){
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+let input =
+document.getElementById("search")
+.value.toLowerCase();
 
-window.openModal = function(){
-document.getElementById("studentModal").style.display="flex";
+let students =
+document.getElementsByClassName("student");
+
+for(let i=0;i<students.length;i++){
+
+let text =
+students[i].innerText.toLowerCase();
+
+if(text.includes(input)){
+students[i].style.display="";
 }
-
-window.closeModal = function(){
-document.getElementById("studentModal").style.display="none";
+else{
+students[i].style.display="none";
 }
-
-async function loadStudents(){
-
-const studentList =
-document.getElementById("studentList");
-
-studentList.innerHTML="";
-
-const querySnapshot =
-await getDocs(collection(db,"students"));
-
-querySnapshot.forEach((doc)=>{
-
-const data = doc.data();
-
-studentList.innerHTML += `
-<div class="student">
-<h3>${data.name}</h3>
-<p>Class: ${data.studentClass}</p>
-<p>Division: ${data.division}</p>
-<p>Roll No: ${data.rollNo}</p>
-<p>Batch No: ${data.batchNo}</p>
-</div>
-`;
-
-});
+}
 
 }
 
-document
-.getElementById("addStudent")
-.addEventListener("click",async()=>{
-
-const name =
-document.getElementById("name").value;
-
-const studentClass =
-document.getElementById("studentClass").value;
-
-const division =
-document.getElementById("division").value;
-
-const rollNo =
-document.getElementById("rollNo").value;
-
-const batchNo =
-document.getElementById("batchNo").value;
-
-if(!name || !studentClass || !rollNo){
-alert("Fill required fields");
-return;
+function toggleDarkMode(){
+document.body.classList.toggle("dark-mode");
 }
 
-await addDoc(collection(db,"students"),{
-name,
-studentClass,
-division,
-rollNo,
-batchNo
-});
-
-closeModal();
-loadStudents();
-
-});
-
-loadStudents();
 </script>
+
 </body>
 </html>
