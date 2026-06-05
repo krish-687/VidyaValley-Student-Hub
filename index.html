@@ -6,193 +6,34 @@
 <title>VidyaValley Student Hub</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-select{
-width:100%;
-padding:12px;
-border:1px solid #ccc;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-justify-content:center;
-align-items:center;
-z-index:2000;
-}
-
-.modal-content{
-background:white;
-padding:25px;
-border-radius:15px;
-width:90%;
-max-width:400px;
-}
-
-.close{
-float:right;
-cursor:pointer;
-font-size:22px;
-font-weight:bold;
-}
-body{
-background:#f5f7fa;
-color:#333;
-transition:0.3s;
-}
-
-header{
-background:linear-gradient(135deg,#1e8449,#27ae60);
-color:white;
-padding:40px 20px;
-text-align:center;
-}
-
-.logo{
-width:100px;
-height:100px;
-border-radius:50%;
-background:white;
-padding:5px;
-margin-bottom:10px;
-}
-
-nav{
-background:#145a32;
-padding:15px;
-text-align:center;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin:0 15px;
-font-weight:bold;
-}
-
-section{
-max-width:1000px;
-margin:auto;
-padding:25px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-margin-bottom:20px;
-}
-
-input{
-width:100%;
-padding:12px;
-border:1px solid #ccc;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.student-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
-
-.student{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.student h3{
-color:#1e8449;
-}
-
-.button{
-display:inline-block;
-background:#27ae60;
-color:white;
-padding:12px 20px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
-margin-bottom:20px;
-}
-
-.button:hover{
-background:#1e8449;
-}
-
-.gallery{
-text-align:center;
-padding:40px;
-border:2px dashed #999;
-border-radius:15px;
-font-size:20px;
-}
-
-.dark-btn{
-margin-top:15px;
-background:white;
-color:#145a32;
-padding:10px 15px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.dark-mode{
-background:#121212;
-color:white;
-}
-
-.dark-mode .card,
-.dark-mode .student{
-background:#1e1e1e;
-color:white;
-}
-
-footer{
-background:#145a32;
-color:white;
-text-align:center;
-padding:15px;
-margin-top:30px;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f5f7fa;color:#333;transition:.3s}
+header{background:linear-gradient(135deg,#1e8449,#27ae60);color:#fff;padding:40px 20px;text-align:center}
+nav{background:#145a32;padding:15px;text-align:center;position:sticky;top:0}
+nav a{color:#fff;text-decoration:none;margin:0 15px;font-weight:bold}
+section{max-width:1000px;margin:auto;padding:25px}
+.card{background:#fff;padding:20px;border-radius:15px;box-shadow:0 3px 10px rgba(0,0,0,.1);margin-bottom:20px}
+.student-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.student{background:#fff;padding:15px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.student h3{color:#1e8449}
+input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;margin-bottom:15px}
+.button,.dark-btn{background:#27ae60;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;font-weight:bold}
+.gallery{text-align:center;padding:40px;border:2px dashed #999;border-radius:15px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center}
+.modal-content{background:#fff;padding:25px;border-radius:15px;width:90%;max-width:400px}
+.close{float:right;cursor:pointer;font-size:24px}
+.dark-mode{background:#121212;color:#fff}
+.dark-mode .card,.dark-mode .student,.dark-mode .modal-content{background:#1e1e1e;color:#fff}
+.dark-mode input,.dark-mode select{background:#2a2a2a;color:#fff;border:1px solid #444}
+footer{background:#145a32;color:#fff;text-align:center;padding:15px}
 </style>
 </head>
-
 <body>
 
 <header>
-
-<!-- Upload logo.png in GitHub repo -->
-<img src="logo.png" class="logo" alt="School Logo">
-
 <h1>🏫 VidyaValley Student Hub</h1>
-<p>Class Directory Portal</p>
-
-<button class="dark-btn" onclick="toggleDarkMode()">
-🌙 Dark Mode
-</button>
-
+<p>Class Directory Portal</p><br>
+<button class="dark-btn" onclick="toggleDarkMode()">🌙 Dark Mode</button>
 </header>
 
 <nav>
@@ -203,254 +44,143 @@ margin-top:30px;
 </nav>
 
 <section id="home">
-
 <div class="card">
 <h2>Welcome</h2>
-
-<p>
-Welcome to the official VidyaValley Student Hub.
-Search classmates, explore the directory,
-and stay connected with your class.
-</p>
-
+<p>Welcome to the official VidyaValley Student Hub.</p>
 </div>
-<div class="student-grid" id="studentList"></div>
 </section>
 
 <section id="students">
-
 <div class="card">
+<h2>Student Directory</h2><br>
 
-<h2>Student Directory</h2>
+<button class="button" onclick="openModal()">➕ Add Your Name</button>
 
-<h2>Student Directory</h2>
-
-<button class="button" onclick="openModal()">
-➕ Add Your Name
-</button>
-
-<input
-type="text"
-id="search"
-placeholder="🔍 Search by Name, Roll No, Class..."
-onkeyup="searchStudent()">
+<input type="text" id="search" placeholder="🔍 Search by Name, Roll No, Class..." onkeyup="searchStudent()">
 
 <div class="student-grid" id="studentList"></div>
-<div class="modal-content">
-<div id="studentList"></div>
-<span class="close" onclick="closeModal()">&times;</span>
-
-<h2>Add Student</h2>
-
-<input type="text" id="name" placeholder="Student Name">
-
-<input type="text" id="studentClass" placeholder="Class">
-
-<select id="division">
-<option>A</option>
-<option>B</option>
-<option>C</option>
-</select>
-
-<input type="text" id="rollNo" placeholder="Roll Number">
-
-<input type="text" id="batchNo" placeholder="Batch Number">
-
-<button class="button" id="addStudent">
-Submit
-</button>
-
 </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </section>
 
+<div class="modal" id="studentModal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">&times;</span>
+<h2>Add Student</h2><br>
+
+<input type="text" id="name" placeholder="Student Name">
+<input type="text" id="studentClass" placeholder="Class">
+<select id="division">
+<option>A</option><option>B</option><option>C</option>
+</select>
+<input type="text" id="rollNo" placeholder="Roll Number">
+<input type="text" id="batchNo" placeholder="Batch Number">
+
+<button class="button" id="addStudent">Submit</button>
+</div>
+</div>
+
 <section id="gallery">
-
 <div class="card">
-
 <h2>Gallery</h2>
-
-<div class="gallery">
-📸 Coming Soon
+<div class="gallery">📸 Coming Soon</div>
 </div>
-
-</div>
-
 </section>
 
 <section id="about">
-
 <div class="card">
-
 <h2>About</h2>
-
-<p>
-This website is created for students of
-VidyaValley School.
-More features will be added in the future.
-</p>
-
+<p>This website is created for VidyaValley School students.</p>
 </div>
-
 </section>
 
-<footer>
-© 2026 VidyaValley Student Hub
-</footer>
+<footer>© 2026 VidyaValley Student Hub</footer>
+
+<script>
+function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
+function openModal(){document.getElementById("studentModal").style.display="flex";}
+function closeModal(){document.getElementById("studentModal").style.display="none";}
+function searchStudent(){
+const input=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll("#studentList .student").forEach(student=>{
+student.style.display=student.innerText.toLowerCase().includes(input)?"":"none";
+});
+}
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
-getFirestore,
-collection,
-addDoc,
-getDocs
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyB-qeWrDn8gqCyAMe8Z-Z3DHxXKagOHEA0",
-authDomain: "vidyavalley-student-hub.firebaseapp.com",
-projectId: "vidyavalley-student-hub",
-storageBucket: "vidyavalley-student-hub.firebasestorage.app",
-messagingSenderId: "551586633384",
-appId: "1:551586633384:web:43790075f78b0ba32d549d"
+  apiKey: "AIzaSyB-qeWrDn8gqCyAMe8Z-Z3DHxXKagOHEA0",
+  authDomain: "vidyavalley-student-hub.firebaseapp.com",
+  projectId: "vidyavalley-student-hub",
+  storageBucket: "vidyavalley-student-hub.firebasestorage.app",
+  messagingSenderId: "551586633384",
+  appId: "1:551586633384:web:43790075f78b0ba32d549d"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-window.openModal = function(){
-document.getElementById("studentModal").style.display="flex";
+async function loadStudents() {
+  const studentList = document.getElementById("studentList");
+  studentList.innerHTML = "";
+
+  const querySnapshot = await getDocs(collection(db, "students"));
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    studentList.innerHTML += `
+      <div class="student">
+        <h3>${data.name}</h3>
+        <p>Class: ${data.studentClass}</p>
+        <p>Division: ${data.division}</p>
+        <p>Roll No: ${data.rollNo}</p>
+        <p>Batch No: ${data.batchNo}</p>
+      </div>
+    `;
+  });
 }
 
-window.closeModal = function(){
-document.getElementById("studentModal").style.display="none";
-}
+document.getElementById("addStudent")
+.addEventListener("click", async () => {
 
-async function loadStudents(){
+  const name = document.getElementById("name").value;
+  const studentClass = document.getElementById("studentClass").value;
+  const division = document.getElementById("division").value;
+  const rollNo = document.getElementById("rollNo").value;
+  const batchNo = document.getElementById("batchNo").value;
 
-const studentList =
-document.getElementById("studentList");
+  if (!name || !studentClass || !rollNo) {
+    alert("Please fill required fields");
+    return;
+  }
 
-studentList.innerHTML="";
+  await addDoc(collection(db, "students"), {
+    name,
+    studentClass,
+    division,
+    rollNo,
+    batchNo
+  });
 
-const querySnapshot =
-await getDocs(collection(db,"students"));
+  document.getElementById("name").value = "";
+  document.getElementById("studentClass").value = "";
+  document.getElementById("rollNo").value = "";
+  document.getElementById("batchNo").value = "";
 
-querySnapshot.forEach((doc)=>{
-
-const data = doc.data();
-
-studentList.innerHTML += `
-<div class="student">
-<h3>${data.name}</h3>
-<p>Class: ${data.studentClass}</p>
-<p>Division: ${data.division}</p>
-<p>Roll No: ${data.rollNo}</p>
-<p>Batch No: ${data.batchNo}</p>
-</div>
-`;
-
-});
-
-}
-
-document
-.getElementById("addStudent")
-.addEventListener("click",async()=>{
-
-const name =
-document.getElementById("name").value;
-
-const studentClass =
-document.getElementById("studentClass").value;
-
-const division =
-document.getElementById("division").value;
-
-const rollNo =
-document.getElementById("rollNo").value;
-
-const batchNo =
-document.getElementById("batchNo").value;
-
-if(!name || !studentClass || !rollNo){
-alert("Fill required fields");
-return;
-}
-
-await addDoc(collection(db,"students"),{
-name,
-studentClass,
-division,
-rollNo,
-batchNo
-});
-
-closeModal();
-loadStudents();
-
+  closeModal();
+  loadStudents();
 });
 
 loadStudents();
-  function searchStudent() {
-
-let input =
-document.getElementById("search")
-.value.toLowerCase();
-
-let students =
-document.querySelectorAll(".student");
-
-students.forEach(student => {
-
-let text =
-student.innerText.toLowerCase();
-
-if(text.includes(input)){
-student.style.display = "";
-}
-else{
-student.style.display = "none";
-}
-
-});
-
-}
-  function searchStudent() {
-
-const input =
-document.getElementById("search")
-.value.toLowerCase();
-
-const students =
-document.querySelectorAll("#studentList .student");
-
-students.forEach(student => {
-
-const text =
-student.innerText.toLowerCase();
-
-student.style.display =
-text.includes(input) ? "block" : "none";
-
-});
-
-}
 </script>
 </body>
 </html>
