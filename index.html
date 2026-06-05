@@ -226,7 +226,11 @@ and stay connected with your class.
 <button class="button" onclick="openModal()">
 ➕ Add Your Name
 </button>
-
+<input
+type="text"
+id="search"
+placeholder="🔍 Search by Name, Roll No, Class..."
+onkeyup="searchStudent()">
 <div class="modal" id="studentModal">
 <div class="modal-content">
 
@@ -399,6 +403,30 @@ loadStudents();
 });
 
 loadStudents();
+  function searchStudent() {
+
+let input =
+document.getElementById("search")
+.value.toLowerCase();
+
+let students =
+document.querySelectorAll(".student");
+
+students.forEach(student => {
+
+let text =
+student.innerText.toLowerCase();
+
+if(text.includes(input)){
+student.style.display = "";
+}
+else{
+student.style.display = "none";
+}
+
+});
+
+}
 </script>
 </body>
 </html>
