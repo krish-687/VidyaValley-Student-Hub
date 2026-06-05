@@ -189,49 +189,31 @@ and stay connected with your class.
 
 <h2>Student Directory</h2>
 
-<a
-class="button"
-href="https://forms.gle/4dRPd4ebWsW7rTZJ9"
-target="_blank">
-➕ Add Your Name
-</a>
+
 
 <input
 type="text"
 id="search"
 placeholder="Search Student Name or Roll Number..."
 onkeyup="searchStudent()">
+<input type="text" id="name" placeholder="Student Name">
 
+<input type="text" id="studentClass" placeholder="Class">
+
+<select id="division">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+</select>
+
+<input type="text" id="rollNo" placeholder="Roll Number">
+
+<input type="text" id="batchNo" placeholder="Batch Number">
+
+<button id="addStudent">Add Your Name</button>
 <div class="student-grid">
 
-<div class="student">
-<h3>Krish Nigam</h3>
-<p>Roll No: 32.
-Class: 8th Div: B</p>
-</div>
-
-<div class="student">
-<h3>Krishna Kumbhar</h3>
-<p>Roll No: 30.
-Class: 8th Div: B</p>
-</div>
-
-<div class="student">
-<h3>Vaibhav Sharma </h3>
-<p>Roll No: 30.
-Class: 8th Div: A</p>
-</div>
-
-<div class="student">
-<h3>Arhan shaeik </h3>
-<p>Roll No: 32.
-Class: 8th Div: A</p>
-</div>
-
-<div class="student">
-<h3>sashkam </h3>
-<p>Roll No: 28.
-Class: 8th Div: A</p>
+<div class="student-grid" id="studentList">
 </div>
 
 
@@ -241,9 +223,11 @@ Class: 8th Div: A</p>
 
 
 
-</div>
 
-</div>
+
+
+
+
 
 </section>
 
