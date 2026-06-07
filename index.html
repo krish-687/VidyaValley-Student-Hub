@@ -122,7 +122,7 @@ input:focus, select:focus { border-color: var(--primary); }
 .student p:last-of-type { border-bottom: none; }
 .student p span { font-weight: 700; color: var(--text-main); }
 
-/* Download Badge utility icon button */
+/* Download Badge button */
 .print-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: var(--transition); text-decoration: underline; margin-top: 10px; text-align: left; }
 .print-btn:hover { color: var(--primary); }
 
@@ -169,10 +169,11 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 
     <div class="class-breakdown">
       <h3 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-muted)">CLASS SUMMARY</h3>
+      <div class="class-row"><span>Class 6</span><span class="class-count-badge" id="c6Count">0</span></div>
+      <div class="class-row"><span>Class 7</span><span class="class-count-badge" id="c7Count">0</span></div>
+      <div class="class-row"><span>Class 8</span><span class="class-count-badge" id="c8Count">0</span></div>
       <div class="class-row"><span>Class 9</span><span class="class-count-badge" id="c9Count">0</span></div>
       <div class="class-row"><span>Class 10</span><span class="class-count-badge" id="c10Count">0</span></div>
-      <div class="class-row"><span>Class 11</span><span class="class-count-badge" id="c11Count">0</span></div>
-      <div class="class-row"><span>Class 12</span><span class="class-count-badge" id="c12Count">0</span></div>
     </div>
 
     <div class="card">
@@ -190,10 +191,11 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
       
       <select id="classFilter" onchange="filterAndSortRecords()">
         <option value="all">All Classes</option>
+        <option value="6">Class 6</option>
+        <option value="7">Class 7</option>
+        <option value="8">Class 8</option>
         <option value="9">Class 9</option>
         <option value="10">Class 10</option>
-        <option value="11">Class 11</option>
-        <option value="12">Class 12</option>
       </select>
 
       <select id="divFilter" onchange="filterAndSortRecords()">
@@ -268,7 +270,7 @@ function filterAndSortRecords() {
     outputList = outputList.filter(student => student.studentClass === classFilterValue);
   }
 
-  // 2. Division Filter Logic (NEW)
+  // 2. Division Filter Logic
   if (divFilterValue !== "all") {
     outputList = outputList.filter(student => student.division === divFilterValue);
   }
@@ -285,7 +287,7 @@ function filterAndSortRecords() {
     outputList.sort((a, b) => parseInt(a.rollNo || 0) - parseInt(b.rollNo || 0));
   }
   
-  // Update Live Counter (NEW)
+  // Update Live Counter
   document.getElementById("resultsCounter").innerText = `Showing ${outputList.length} matching student profile(s)`;
 
   const studentListElement = document.getElementById("studentList");
@@ -331,24 +333,27 @@ async function loadStudents() {
     const querySnapshot = await getDocs(collection(db, "students"));
     localStudentsList = []; 
     
-    let c9 = 0, c10 = 0, c11 = 0, c12 = 0;
+    // Updated Class Variables
+    let c6 = 0, c7 = 0, c8 = 0, c9 = 0, c10 = 0;
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       localStudentsList.push(data);
       
-      // Calculate dynamic class stats
+      // Calculate dynamic class stats (Updated classes)
+      if(data.studentClass === "6") c6++;
+      if(data.studentClass === "7") c7++;
+      if(data.studentClass === "8") c8++;
       if(data.studentClass === "9") c9++;
       if(data.studentClass === "10") c10++;
-      if(data.studentClass === "11") c11++;
-      if(data.studentClass === "12") c12++;
     });
     
     document.getElementById("totalCounter").innerText = localStudentsList.length;
+    document.getElementById("c6Count").innerText = c6;
+    document.getElementById("c7Count").innerText = c7;
+    document.getElementById("c8Count").innerText = c8;
     document.getElementById("c9Count").innerText = c9;
     document.getElementById("c10Count").innerText = c10;
-    document.getElementById("c11Count").innerText = c11;
-    document.getElementById("c12Count").innerText = c12;
     
     filterAndSortRecords();
   } catch (error) {
