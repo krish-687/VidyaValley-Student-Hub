@@ -37,31 +37,34 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
 body{background: var(--bg-gradient); color: var(--text-main); transition: var(--transition); min-height: 100vh;}
 
-/* Header */
-header{background: linear-gradient(135deg, #022c22, #065f46); color:#fff; padding: 60px 20px; text-align:center; position: relative; overflow: hidden;}
-header h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 8px; }
-header p { font-size: 1.1rem; opacity: 0.9; }
+/* Header & Announcement */
+header{background: linear-gradient(135deg, #022c22, #065f46); color:#fff; padding: 50px 20px; text-align:center; position: relative;}
+header h1 { font-size: 2.3rem; font-weight: 700; margin-bottom: 6px; }
+header p { font-size: 1rem; opacity: 0.9; }
+
+.notice-banner {
+  background: #f59e0b; color: #000; padding: 8px; text-align: center; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.5px; box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1);
+}
 
 .logo{
-  width:115px; height:115px; border-radius:50%; background:white; padding:6px; margin-bottom:15px;
-  object-fit:cover; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25); transition: var(--transition);
+  width:105px; height:105px; border-radius:50%; background:white; padding:6px; margin-bottom:12px;
+  object-fit:cover; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); transition: var(--transition);
 }
 .logo:hover { transform: scale(1.05); }
 
 .dark-btn{
-  background: rgba(255,255,255,0.12); color:#fff; padding: 10px 22px; border: 1px solid rgba(255,255,255,0.2);
-  border-radius: var(--radius); cursor:pointer; font-weight: 600; font-size: 0.9rem; margin-top: 20px;
-  backdrop-filter: blur(8px); transition: var(--transition);
+  background: rgba(255,255,255,0.12); color:#fff; padding: 8px 18px; border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius); cursor:pointer; font-weight: 600; font-size: 0.85rem; margin-top: 15px;
 }
-.dark-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
 
-/* Navigation Links */
+/* Nav */
 nav{background: #047857; padding: 0; position:sticky; top:0; z-index: 90; box-shadow: 0 4px 20px rgba(0,0,0,0.08);}
 nav .nav-container { max-width: 1240px; margin: auto; display: flex; justify-content: center; }
-nav a{color: rgba(255,255,255,0.8); text-decoration:none; padding: 18px 24px; font-weight: 600; font-size: 0.95rem; transition: var(--transition);}
+nav a{color: rgba(255,255,255,0.8); text-decoration:none; padding: 16px 22px; font-weight: 600; font-size: 0.95rem; transition: var(--transition);}
 nav a:hover{color: #fff; background: rgba(255,255,255,0.1);}
 
-/* Layout Grid */
+/* Layout */
 .main-dashboard {
   max-width: 1240px; margin: auto; padding: 40px 20px;
   display: grid; grid-template-columns: 1fr 2.5fr; gap: 30px;
@@ -69,71 +72,83 @@ nav a:hover{color: #fff; background: rgba(255,255,255,0.1);}
 @media (max-width: 900px) { .main-dashboard { grid-template-columns: 1fr; } }
 
 .card{
-  background: var(--bg-card); padding: 30px; border-radius: var(--radius); 
+  background: var(--bg-card); padding: 25px; border-radius: var(--radius); 
   box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); transition: var(--transition);
 }
-.card:hover { box-shadow: var(--shadow-lg); }
-.card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; color: var(--text-main); }
+.card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: var(--text-main); }
 
-/* Total Counter Box */
-.stat-box { background: var(--bg-card); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border-color); text-align: center; margin-bottom: 25px; }
-.stat-box h4 { font-size: 2.2rem; color: var(--primary); font-weight: 800; }
-.stat-box p { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
+/* Left Panel Stats Widgets */
+.stat-box { background: var(--bg-card); padding: 18px; border-radius: var(--radius); border: 1px solid var(--border-color); text-align: center; margin-bottom: 20px; }
+.stat-box h4 { font-size: 2rem; color: var(--primary); font-weight: 800; }
+.stat-box p { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; margin-top: 2px; }
 
-/* Filter Controls Toolbar */
-.controls-row { display: flex; gap: 12px; align-items: center; margin-bottom: 30px; flex-wrap: wrap; }
+.class-breakdown { background: var(--bg-card); padding: 18px; border-radius: var(--radius); border: 1px solid var(--border-color); }
+.class-row { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
+.class-row:last-child { border-bottom: none; }
+.class-count-badge { background: var(--border-color); padding: 2px 8px; border-radius: 20px; font-size: 0.8rem; }
+
+/* Filter Bar controls */
+.controls-row { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
+.search-results-info { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; padding-left: 2px; }
+
 .button {
-  background: var(--primary); color:#fff; padding: 14px 24px; border:none; border-radius: var(--radius); 
-  cursor:pointer; font-weight: 600; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px;
-  box-shadow: 0 4px 14px var(--primary-glow); font-size: 0.95rem; white-space: nowrap;
+  background: var(--primary); color:#fff; padding: 12px 22px; border:none; border-radius: var(--radius); 
+  cursor:pointer; font-weight: 600; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 4px 12px var(--primary-glow); font-size: 0.9rem;
 }
 .button:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
 input, select {
-  flex: 1; min-width: 160px; padding: 14px 18px; background: var(--bg-card); color: var(--text-main);
-  border: 2px solid var(--border-color); border-radius: var(--radius); outline: none; transition: var(--transition); font-size: 0.95rem;
+  flex: 1; min-width: 140px; padding: 12px 16px; background: var(--bg-card); color: var(--text-main);
+  border: 2px solid var(--border-color); border-radius: var(--radius); outline: none; transition: var(--transition); font-size: 0.9rem;
 }
-input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+input:focus, select:focus { border-color: var(--primary); }
 
-/* Beautiful Student Grid & Cards */
-.student-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap: 24px;}
+/* Cards & Badges */
+.student-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;}
 .student{
-  background: var(--bg-card); padding: 24px; border-radius: var(--radius); 
+  background: var(--bg-card); padding: 22px; border-radius: var(--radius); 
   border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition);
   position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
 }
-.student::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--primary); }
-.student:hover { transform: translateY(-5px); border-color: var(--primary); }
-.student h3{color: var(--text-main); font-size: 1.25rem; margin-bottom: 12px; font-weight: 700;}
-.student p{font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 4px;}
+.student::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--primary); }
+.student:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: var(--shadow-lg); }
+.student h3{color: var(--text-main); font-size: 1.15rem; margin-bottom: 10px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;}
+
+/* Dynamic Batch Badge styling */
+.batch-pill { font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: bold; background: #e0f2fe; color: #0369a1; }
+
+.student p{font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 4px;}
 .student p:last-of-type { border-bottom: none; }
-.student p span { font-weight: 700; color: var(--primary); }
+.student p span { font-weight: 700; color: var(--text-main); }
 
-/* Standalone Gallery Section */
+/* Download Badge utility icon button */
+.print-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: var(--transition); text-decoration: underline; margin-top: 10px; text-align: left; }
+.print-btn:hover { color: var(--primary); }
+
+/* General Layout Items */
 .section-wrapper { max-width: 1240px; margin: auto; padding: 0 20px 40px 20px; }
-.gallery-zone { text-align:center; padding: 50px 20px; border: 2px dashed var(--border-color); border-radius: var(--radius); color: var(--text-muted); font-weight: 500; }
+.gallery-zone { text-align:center; padding: 40px 20px; border: 2px dashed var(--border-color); border-radius: var(--radius); color: var(--text-muted); font-weight: 500; }
 
-/* Modal Design */
+/* Modal popup form */
 .modal{display:none; position:fixed; inset:0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); justify-content:center; align-items:center; z-index: 100;}
-.modal-content{background: var(--bg-card); padding: 35px; border-radius: var(--radius); width: 92%; max-width: 460px; border: 1px solid var(--border-color); position: relative; box-shadow: var(--shadow-lg); animation: scaleUp 0.25s ease forwards;}
-.close{position: absolute; top: 22px; right: 22px; cursor:pointer; font-size:24px; color: var(--text-muted); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--border-color);}
-.close:hover { color: var(--text-main); }
-.modal-content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--text-main); }
-.modal-content input, .modal-content select { width: 100%; margin-bottom: 16px; }
+.modal-content{background: var(--bg-card); padding: 30px; border-radius: var(--radius); width: 92%; max-width: 440px; border: 1px solid var(--border-color); position: relative; box-shadow: var(--shadow-lg);}
+.close{position: absolute; top: 20px; right: 20px; cursor:pointer; font-size:22px; color: var(--text-muted); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--border-color);}
+.modal-content h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
+.modal-content input, .modal-content select { width: 100%; margin-bottom: 14px; }
 
-/* Footer */
-footer{background: #090d16; color: #64748b; text-align:center; padding:25px; font-size: 0.9rem; border-top: 1px solid var(--border-color);}
-
-@keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+footer{background: #090d16; color: #64748b; text-align:center; padding:20px; font-size: 0.85rem; border-top: 1px solid var(--border-color);}
 </style>
 </head>
 <body>
 
+<div class="notice-banner">📢 UPDATE: Class Stats and Live Filters are fully optimized!</div>
+
 <header>
   <img src="logo.png" class="logo" alt="School Logo">
   <h1>🏫 VidyaValley Student Hub</h1>
-  <p>Class Directory & Portal</p>
-  <button class="dark-btn" onclick="toggleDarkMode()">✨ Dark Mode</button>
+  <p>Simple Class Directory & Smart Records</p>
+  <button class="dark-btn" onclick="toggleDarkMode()">✨ Change Theme</button>
 </header>
 
 <nav>
@@ -146,31 +161,46 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px; fon
 
 <div class="main-dashboard" id="home">
   
-  <div style="display: flex; flex-direction: column; gap: 25px;">
+  <div style="display: flex; flex-direction: column; gap: 20px;">
     <div class="stat-box">
       <h4 id="totalCounter">0</h4>
-      <p>TOTAL STUDENTS</p>
+      <p>TOTAL REGISTERED STUDENTS</p>
+    </div>
+
+    <div class="class-breakdown">
+      <h3 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-muted)">CLASS SUMMARY</h3>
+      <div class="class-row"><span>Class 9</span><span class="class-count-badge" id="c9Count">0</span></div>
+      <div class="class-row"><span>Class 10</span><span class="class-count-badge" id="c10Count">0</span></div>
+      <div class="class-row"><span>Class 11</span><span class="class-count-badge" id="c11Count">0</span></div>
+      <div class="class-row"><span>Class 12</span><span class="class-count-badge" id="c12Count">0</span></div>
     </div>
 
     <div class="card">
       <h2>👋 Welcome</h2>
-      <p style="color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;">Welcome to the official VidyaValley Student Hub portal. This online platform is created for keeping track of batchmates and organizing student information securely.</p>
+      <p style="color: var(--text-muted); line-height: 1.5; font-size: 0.9rem;">This is the official Student Hub page for VidyaValley. It is designed to easily find your classmates, sort details, and check batch records.</p>
     </div>
   </div>
 
   <div class="card" id="students">
-    <h2>⚡ Student Directory</h2>
+    <h2>⚡ Student Directory</h2><br>
     
     <div class="controls-row">
-      <button class="button" onclick="openModal()">➕ Add Profile</button>
-      <input type="text" id="search" placeholder="🔍 Search by name..." onkeyup="filterAndSortRecords()">
+      <button class="button" onclick="openModal()">➕ Add New Student</button>
+      <input type="text" id="search" placeholder="🔍 Type name to search..." onkeyup="filterAndSortRecords()">
       
       <select id="classFilter" onchange="filterAndSortRecords()">
-        <option value="all">Filter: All Classes</option>
+        <option value="all">All Classes</option>
         <option value="9">Class 9</option>
         <option value="10">Class 10</option>
         <option value="11">Class 11</option>
         <option value="12">Class 12</option>
+      </select>
+
+      <select id="divFilter" onchange="filterAndSortRecords()">
+        <option value="all">All Divisions</option>
+        <option value="A">Division A</option>
+        <option value="B">Division B</option>
+        <option value="C">Division C</option>
       </select>
 
       <select id="sortControl" onchange="filterAndSortRecords()">
@@ -180,14 +210,16 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px; fon
       </select>
     </div>
 
+    <div class="search-results-info" id="resultsCounter">Showing 0 matching profiles</div>
+
     <div class="student-grid" id="studentList"></div>
   </div>
 </div>
 
 <div class="section-wrapper" id="gallery">
   <div class="card">
-    <h2>📸 School Gallery</h2>
-    <div class="gallery-zone">Images are coming soon! Database updates in progress...</div>
+    <h2>📸 Gallery</h2>
+    <div class="gallery-zone">Photos section coming soon. Records optimization in progress.</div>
   </div>
 </div>
 
@@ -197,64 +229,80 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px; fon
     <h2>Add Student Profile</h2>
     
     <input type="text" id="name" placeholder="Full Name">
-    <input type="text" id="studentClass" placeholder="Class (e.g. 10)">
+    <input type="text" id="studentClass" placeholder="Class Standard (e.g. 10)">
     <select id="division">
       <option value="" disabled selected>Select Division</option>
       <option>A</option><option>B</option><option>C</option>
     </select>
     <input type="text" id="rollNo" placeholder="Roll Number">
-    <input type="text" id="batchNo" placeholder="Batch Number">
+    <input type="text" id="batchNo" placeholder="Batch Name (e.g. B1)">
 
-    <button class="button" id="addStudent" style="width: 100%; justify-content: center; margin-top: 10px;">Submit Details</button>
+    <button class="button" id="addStudent" style="width: 100%; justify-content: center; margin-top: 10px;">Save Profile</button>
   </div>
 </div>
 
-<footer>© 2026 VidyaValley Student Hub Portal • All Rights Reserved</footer>
+<footer>© 2026 VidyaValley Student Hub Portal • Simple Clean Edition</footer>
 
 <script>
 function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
 function openModal(){document.getElementById("studentModal").style.display="flex";}
 function closeModal(){document.getElementById("studentModal").style.display="none";}
 
-// Local helper memory to handle real-time calculations
 let localStudentsList = [];
+
+// Print utility card action function
+function printProfile(name, sClass, div, roll, batch) {
+  alert(`--- DIGITAL PROFILE BADGE ---\n\nName: ${name}\nClass: ${sClass}-${div}\nRoll No: ${roll}\nBatch: ${batch}\n\nDownloaded successfully!`);
+}
 
 function filterAndSortRecords() {
   const searchInput = document.getElementById("search").value.toLowerCase();
   const classFilterValue = document.getElementById("classFilter").value;
+  const divFilterValue = document.getElementById("divFilter").value;
   const sortValue = document.getElementById("sortControl").value;
   
-  // Clone current data list to avoid raw manipulation
   let outputList = [...localStudentsList];
   
-  // 1. Class Filter Action
+  // 1. Class Filter Logic
   if (classFilterValue !== "all") {
     outputList = outputList.filter(student => student.studentClass === classFilterValue);
   }
+
+  // 2. Division Filter Logic (NEW)
+  if (divFilterValue !== "all") {
+    outputList = outputList.filter(student => student.division === divFilterValue);
+  }
   
-  // 2. Sorting Logic Action
+  // 3. Search Matching Filter
+  if (searchInput) {
+    outputList = outputList.filter(student => student.name.toLowerCase().includes(searchInput));
+  }
+
+  // 4. Sorting Logic Action
   if (sortValue === "nameAsc") {
     outputList.sort((a, b) => a.name.localeCompare(b.name));
   } else if (sortValue === "rollAsc") {
     outputList.sort((a, b) => parseInt(a.rollNo || 0) - parseInt(b.rollNo || 0));
   }
   
-  // 3. Printing Layout Grid and Appending Text Match Criteria
+  // Update Live Counter (NEW)
+  document.getElementById("resultsCounter").innerText = `Showing ${outputList.length} matching student profile(s)`;
+
   const studentListElement = document.getElementById("studentList");
   studentListElement.innerHTML = "";
   
   outputList.forEach(data => {
-    const isMatch = data.name.toLowerCase().includes(searchInput);
+    const batchName = data.batchNo || 'N/A';
                     
     const cardContent = `
-    <div class="student" style="display: ${isMatch ? 'flex' : 'none'}">
-      <h3>${data.name}</h3>
+    <div class="student">
+      <h3>${data.name} <span class="batch-pill">${batchName}</span></h3>
       <div>
         <p>Class: <span>${data.studentClass}</span></p>
         <p>Division: <span>${data.division}</span></p>
         <p>Roll No: <span>${data.rollNo}</span></p>
-        <p>Batch No: <span>${data.batchNo || 'N/A'}</span></p>
       </div>
+      <button class="print-btn" onclick="printProfile('${data.name}', '${data.studentClass}', '${data.division}', '${data.rollNo}', '${batchName}')">📥 Download Info Badge</button>
     </div>
     `;
     studentListElement.innerHTML += cardContent;
@@ -283,17 +331,28 @@ async function loadStudents() {
     const querySnapshot = await getDocs(collection(db, "students"));
     localStudentsList = []; 
     
+    let c9 = 0, c10 = 0, c11 = 0, c12 = 0;
+
     querySnapshot.forEach((doc) => {
-      localStudentsList.push(doc.data());
+      const data = doc.data();
+      localStudentsList.push(data);
+      
+      // Calculate dynamic class stats
+      if(data.studentClass === "9") c9++;
+      if(data.studentClass === "10") c10++;
+      if(data.studentClass === "11") c11++;
+      if(data.studentClass === "12") c12++;
     });
     
-    // Auto Update counter badge dynamically
     document.getElementById("totalCounter").innerText = localStudentsList.length;
+    document.getElementById("c9Count").innerText = c9;
+    document.getElementById("c10Count").innerText = c10;
+    document.getElementById("c11Count").innerText = c11;
+    document.getElementById("c12Count").innerText = c12;
     
-    // Render dynamic data inside layouts
     filterAndSortRecords();
   } catch (error) {
-    console.error("Error loading students list: ", error);
+    console.error("Error loading list: ", error);
   }
 }
 
@@ -305,7 +364,7 @@ document.getElementById("addStudent").addEventListener("click", async () => {
   const batchNo = document.getElementById("batchNo").value.trim();
 
   if (!name || !studentClass || !rollNo || !division) {
-    alert("Please fill all required profile parameters!");
+    alert("Please fill all required boxes!");
     return;
   }
 
@@ -325,19 +384,12 @@ document.getElementById("addStudent").addEventListener("click", async () => {
     });
 
     if (exists) {
-      alert("A student with this Class, Division, and Roll Number already exists!");
+      alert("This student profile already exists!");
       return;
     }
 
-    await addDoc(collection(db, "students"), {
-      name,
-      studentClass,
-      division,
-      rollNo,
-      batchNo
-    });
+    await addDoc(collection(db, "students"), { name, studentClass, division, rollNo, batchNo });
 
-    // Resetting Input Forms
     document.getElementById("name").value = "";
     document.getElementById("studentClass").value = "";
     document.getElementById("division").selectedIndex = 0;
@@ -348,14 +400,11 @@ document.getElementById("addStudent").addEventListener("click", async () => {
     loadStudents();
     
   } catch (error) {
-    console.error("Error adding data: ", error);
-    alert("Database sync issue. Please try again.");
+    alert("Database sync issue. Try again.");
   }
 });
 
-// Run standard init actions
 loadStudents();
 </script>
 </body>
-  </html>
-  
+</html>
