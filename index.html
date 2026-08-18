@@ -115,7 +115,6 @@ input:focus, select:focus { border-color: var(--primary); }
 .student:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: var(--shadow-lg); }
 .student h3{color: var(--text-main); font-size: 1.15rem; margin-bottom: 10px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;}
 
-/* Dynamic Batch Badge styling */
 .batch-pill { font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: bold; background: #e0f2fe; color: #0369a1; }
 
 .student p{font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 4px;}
@@ -145,7 +144,7 @@ input:focus, select:focus { border-color: var(--primary); }
 .gallery-zone { text-align:center; padding: 40px 20px; border: 2px dashed var(--border-color); border-radius: var(--radius); color: var(--text-muted); font-weight: 500; }
 
 /* Modal popup form */
-.modal{display:none; position:fixed; inset:0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); justify-content:center; align-items:center; z-index: 100;}
+.modal{display:none; position:fixed; inset:0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content:center; align-items:center; z-index: 100;}
 .modal-content{background: var(--bg-card); padding: 30px; border-radius: var(--radius); width: 92%; max-width: 440px; border: 1px solid var(--border-color); position: relative; box-shadow: var(--shadow-lg);}
 .close{position: absolute; top: 20px; right: 20px; cursor:pointer; font-size:22px; color: var(--text-muted); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--border-color);}
 .modal-content h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
@@ -174,7 +173,6 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 </nav>
 
 <div class="main-dashboard" id="home">
-  
   <div style="display: flex; flex-direction: column; gap: 20px;">
     <div class="stat-box">
       <h4 id="totalCounter">0</h4>
@@ -277,6 +275,89 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
   </div>
 </div>
 
+<!-- Simplified Clean Digital ID Card Modal -->
+<div class="modal" id="idCardModal">
+  <div class="modal-content" style="max-width: 380px; padding: 20px; background: #0f172a; border-radius: 16px;">
+    <span class="close" onclick="closeIdCardModal()" style="z-index: 10;">&times;</span>
+    
+    <div id="idCardPrintArea" style="
+      width: 100%; 
+      background: #ffffff; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: #1e293b;
+      padding-bottom: 20px;
+    ">
+      <!-- Top Header Graphic -->
+      <div style="
+        background: linear-gradient(135deg, #15803d 0%, #22c55e 100%); 
+        height: 85px; 
+        position: relative;
+        clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 100%, 15% 100%, 0 70%);
+        padding-top: 10px;
+      ">
+        <div style="font-size: 0.65rem; color: #f0fdf4; font-weight: bold; letter-spacing: 0.3px;">Shri S.P.Deshmukh Shikshan Sanstha's</div>
+        <div style="font-size: 1.25rem; color: #ffffff; font-weight: 900; letter-spacing: 0.5px; margin-top: 1px;">VIDYAVALLEY</div>
+        <div style="font-size: 0.75rem; color: #ffffff; font-weight: 800; letter-spacing: 1px;">INTERNATIONAL SCHOOL</div>
+      </div>
+
+      <!-- Academic Year Badge -->
+      <div style="margin-top: -12px;">
+        <span style="
+          background: #334155; 
+          color: #ffffff; 
+          font-size: 0.65rem; 
+          font-weight: bold; 
+          padding: 3px 14px; 
+          border-radius: 12px;
+          display: inline-block;
+        ">Academic Year- 2026-2027</span>
+      </div>
+
+      <!-- Photo Frame -->
+      <div style="margin: 16px auto 12px auto; width: 110px; height: 130px; border: 2px solid #16a34a; border-radius: 6px; padding: 2px; background: #fff;">
+        <img id="cardPhoto" src="https://api.dicebear.com/7.x/bottts/svg?seed=student" alt="Student Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+      </div>
+
+      <!-- Student Name -->
+      <div id="cardName" style="font-size: 1.1rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 10px; margin-bottom: 15px;">
+        STUDENT NAME
+      </div>
+
+      <!-- Dynamic Details Container (Class, Division, Roll No, Batch) -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin: 0 20px; padding: 12px 16px; font-size: 0.85rem; color: #334155; font-weight: 700; line-height: 1.8; text-align: left;">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 4px;">
+          <span>Class & Division:</span>
+          <span id="cardClassDiv" style="color: #0f172a; font-weight: 800;">10 - A</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 4px;">
+          <span>Roll Number:</span>
+          <span id="cardRoll" style="color: #0f172a; font-weight: 800;">01</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Batch Group:</span>
+          <span id="cardBatch" style="color: #16a34a; font-weight: 800;">B1</span>
+        </div>
+      </div>
+
+      <!-- Principal Signature Footer -->
+      <div style="margin-top: 18px; text-align: right; padding-right: 25px;">
+        <div style="font-family: 'Brush Script MT', cursive, sans-serif; font-size: 1.2rem; color: #0f172a; font-weight: bold;">Randive</div>
+        <div style="font-size: 0.75rem; font-weight: 800; color: #16a34a; margin-top: -4px;">Principal</div>
+      </div>
+
+      <!-- Bottom Green Bar -->
+      <div style="background: #16a34a; height: 10px; width: 100%; position: absolute; bottom: 0;"></div>
+    </div>
+
+    <button class="button" onclick="window.print()" style="width: 100%; justify-content: center; margin-top: 15px;">🖨️ Print ID Card</button>
+  </div>
+</div>
+
 <footer>© 2026 VidyaValley Student Hub Portal • Simple Clean Edition</footer>
 
 <script>
@@ -319,7 +400,18 @@ window.openEditModal = function(id) {
 }
 
 function printProfile(name, sClass, div, roll, batch) {
-  alert(`--- DIGITAL PROFILE BADGE ---\n\nName: ${name}\nClass: ${sClass}-${div}\nRoll No: ${roll}\nBatch: ${batch}\n\nDownloaded successfully!`);
+  document.getElementById("cardName").innerText = name.toUpperCase();
+  document.getElementById("cardClassDiv").innerText = `${sClass} - ${div}`;
+  document.getElementById("cardRoll").innerText = roll;
+  document.getElementById("cardBatch").innerText = batch || "N/A";
+  
+  document.getElementById("cardPhoto").src = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`;
+
+  document.getElementById("idCardModal").style.display = "flex";
+}
+
+function closeIdCardModal() {
+  document.getElementById("idCardModal").style.display = "none";
 }
 
 function filterAndSortRecords() {
@@ -366,7 +458,7 @@ function filterAndSortRecords() {
       </div>
       <div class="card-actions">
         <button class="edit-btn" onclick="openEditModal('${data.id}')">✏️ Edit Profile</button>
-        <button class="print-btn" onclick="printProfile('${data.name}', '${data.studentClass}', '${data.division}', '${data.rollNo}', '${batchName}')">📥 Download Info Badge</button>
+        <button class="print-btn" onclick="printProfile('${data.name}', '${data.studentClass}', '${data.division}', '${data.rollNo}', '${batchName}')">🪪 View Digital ID Card</button>
       </div>
     </div>
     `;
@@ -391,7 +483,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Free ImgBB API Key Integrated
 const IMGBB_API_KEY = "8659ec697ff7979c94f892236a4729ad"; 
 
 window.openGalleryModal = function() {
@@ -405,7 +496,6 @@ window.closeGalleryModal = function() {
   document.getElementById("galleryModal").style.display = "none";
 }
 
-// Fetch Gallery from Firestore
 async function loadGallery() {
   const galleryGrid = document.getElementById("galleryGrid");
 
@@ -436,7 +526,6 @@ async function loadGallery() {
   }
 }
 
-// Upload Photo via Free ImgBB API
 document.getElementById("uploadPhotoBtn").addEventListener("click", async () => {
   const uploaderName = document.getElementById("uploaderName").value.trim();
   const caption = document.getElementById("photoCaption").value.trim();
