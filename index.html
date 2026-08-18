@@ -122,9 +122,13 @@ input:focus, select:focus { border-color: var(--primary); }
 .student p:last-of-type { border-bottom: none; }
 .student p span { font-weight: 700; color: var(--text-main); }
 
-/* Download Badge button */
-.print-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: var(--transition); text-decoration: underline; margin-top: 10px; text-align: left; }
+/* Buttons inside Cards */
+.card-actions { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
+.print-btn, .edit-btn { background: none; border: none; cursor: pointer; font-size: 0.85rem; transition: var(--transition); text-align: left; font-weight: 600;}
+.print-btn { color: var(--text-muted); text-decoration: underline; }
 .print-btn:hover { color: var(--primary); }
+.edit-btn { color: #0284c7; }
+.edit-btn:hover { color: #0369a1; text-decoration: underline; }
 
 /* General Layout Items */
 .section-wrapper { max-width: 1240px; margin: auto; padding: 0 20px 40px 20px; }
@@ -186,7 +190,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
     <h2>⚡ Student Directory</h2><br>
     
     <div class="controls-row">
-      <button class="button" onclick="openModal()">➕ Add New Student</button>
+      <button class="button" onclick="openAddModal()">➕ Add New Student</button>
       <input type="text" id="search" placeholder="🔍 Type name to search..." onkeyup="filterAndSortRecords()">
       
       <select id="classFilter" onchange="filterAndSortRecords()">
@@ -228,7 +232,8 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 <div class="modal" id="studentModal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
-    <h2>Add Student Profile</h2>
+    <h2 id="modalTitle">Add Student Profile</h2>
+    <input type="hidden" id="editDocId" value="">
     
     <input type="text" id="name" placeholder="Full Name">
     <input type="text" id="studentClass" placeholder="Class Standard (e.g. 10)">
@@ -239,7 +244,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
     <input type="text" id="rollNo" placeholder="Roll Number">
     <input type="text" id="batchNo" placeholder="Batch Name (e.g. B1)">
 
-    <button class="button" id="addStudent" style="width: 100%; justify-content: center; margin-top: 10px;">Save Profile</button>
+    <button class="button" id="saveStudentBtn" style="width: 100%; justify-content: center; margin-top: 10px;">Save Profile</button>
   </div>
 </div>
 
@@ -247,12 +252,45 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 
 <script>
 function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
-function openModal(){document.getElementById("studentModal").style.display="flex";}
-function closeModal(){document.getElementById("studentModal").style.display="none";}
 
 let localStudentsList = [];
 
-// Print utility card action function
+// Reset Modal Form
+function resetModalForm() {
+  document.getElementById("editDocId").value = "";
+  document.getElementById("name").value = "";
+  document.getElementById("studentClass").value = "";
+  document.getElementById("division").selectedIndex = 0;
+  document.getElementById("rollNo").value = "";
+  document.getElementById("batchNo").value = "";
+}
+
+function openAddModal() {
+  resetModalForm();
+  document.getElementById("modalTitle").innerText = "Add Student Profile";
+  document.getElementById("studentModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("studentModal").style.display = "none";
+}
+
+// Global scope triggers for inline buttons
+window.openEditModal = function(id) {
+  const student = localStudentsList.find(s => s.id === id);
+  if (!student) return;
+
+  document.getElementById("editDocId").value = student.id;
+  document.getElementById("name").value = student.name;
+  document.getElementById("studentClass").value = student.studentClass;
+  document.getElementById("division").value = student.division;
+  document.getElementById("rollNo").value = student.rollNo;
+  document.getElementById("batchNo").value = student.batchNo || "";
+  
+  document.getElementById("modalTitle").innerText = "Edit Student Profile";
+  document.getElementById("studentModal").style.display = "flex";
+}
+
 function printProfile(name, sClass, div, roll, batch) {
   alert(`--- DIGITAL PROFILE BADGE ---\n\nName: ${name}\nClass: ${sClass}-${div}\nRoll No: ${roll}\nBatch: ${batch}\n\nDownloaded successfully!`);
 }
@@ -265,29 +303,24 @@ function filterAndSortRecords() {
   
   let outputList = [...localStudentsList];
   
-  // 1. Class Filter Logic
   if (classFilterValue !== "all") {
     outputList = outputList.filter(student => student.studentClass === classFilterValue);
   }
 
-  // 2. Division Filter Logic
   if (divFilterValue !== "all") {
     outputList = outputList.filter(student => student.division === divFilterValue);
   }
   
-  // 3. Search Matching Filter
   if (searchInput) {
     outputList = outputList.filter(student => student.name.toLowerCase().includes(searchInput));
   }
 
-  // 4. Sorting Logic Action
   if (sortValue === "nameAsc") {
     outputList.sort((a, b) => a.name.localeCompare(b.name));
   } else if (sortValue === "rollAsc") {
     outputList.sort((a, b) => parseInt(a.rollNo || 0) - parseInt(b.rollNo || 0));
   }
   
-  // Update Live Counter
   document.getElementById("resultsCounter").innerText = `Showing ${outputList.length} matching student profile(s)`;
 
   const studentListElement = document.getElementById("studentList");
@@ -304,7 +337,10 @@ function filterAndSortRecords() {
         <p>Division: <span>${data.division}</span></p>
         <p>Roll No: <span>${data.rollNo}</span></p>
       </div>
-      <button class="print-btn" onclick="printProfile('${data.name}', '${data.studentClass}', '${data.division}', '${data.rollNo}', '${batchName}')">📥 Download Info Badge</button>
+      <div class="card-actions">
+        <button class="edit-btn" onclick="openEditModal('${data.id}')">✏️ Edit Profile</button>
+        <button class="print-btn" onclick="printProfile('${data.name}', '${data.studentClass}', '${data.division}', '${data.rollNo}', '${batchName}')">📥 Download Info Badge</button>
+      </div>
     </div>
     `;
     studentListElement.innerHTML += cardContent;
@@ -314,7 +350,7 @@ function filterAndSortRecords() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-qeWrDn8gqCyAMe8Z-Z3DHxXKagOHEA0",
@@ -333,14 +369,13 @@ async function loadStudents() {
     const querySnapshot = await getDocs(collection(db, "students"));
     localStudentsList = []; 
     
-    // Updated Class Variables
     let c6 = 0, c7 = 0, c8 = 0, c9 = 0, c10 = 0;
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      localStudentsList.push(data);
+    querySnapshot.forEach((document) => {
+      const data = document.data();
+      // Store document ID with local student object
+      localStudentsList.push({ id: document.id, ...data });
       
-      // Calculate dynamic class stats (Updated classes)
       if(data.studentClass === "6") c6++;
       if(data.studentClass === "7") c7++;
       if(data.studentClass === "8") c8++;
@@ -361,7 +396,9 @@ async function loadStudents() {
   }
 }
 
-document.getElementById("addStudent").addEventListener("click", async () => {
+// Universal Submit Handler for Add & Edit
+document.getElementById("saveStudentBtn").addEventListener("click", async () => {
+  const docId = document.getElementById("editDocId").value;
   const name = document.getElementById("name").value.trim();
   const studentClass = document.getElementById("studentClass").value.trim();
   const division = document.getElementById("division").value;
@@ -374,38 +411,40 @@ document.getElementById("addStudent").addEventListener("click", async () => {
   }
 
   try {
-    const querySnapshot = await getDocs(collection(db, "students"));
-    let exists = false;
+    if (docId) {
+      // Perform EDIT update
+      const studentRef = doc(db, "students", docId);
+      await updateDoc(studentRef, { name, studentClass, division, rollNo, batchNo });
+    } else {
+      // Perform ADD duplicate check and new entry creation
+      const querySnapshot = await getDocs(collection(db, "students"));
+      let exists = false;
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      if (
-        data.studentClass === studentClass &&
-        data.division === division &&
-        data.rollNo === rollNo
-      ) {
-        exists = true;
+      querySnapshot.forEach((document) => {
+        const data = document.data();
+        if (
+          data.studentClass === studentClass &&
+          data.division === division &&
+          data.rollNo === rollNo
+        ) {
+          exists = true;
+        }
+      });
+
+      if (exists) {
+        alert("This student profile already exists!");
+        return;
       }
-    });
 
-    if (exists) {
-      alert("This student profile already exists!");
-      return;
+      await addDoc(collection(db, "students"), { name, studentClass, division, rollNo, batchNo });
     }
-
-    await addDoc(collection(db, "students"), { name, studentClass, division, rollNo, batchNo });
-
-    document.getElementById("name").value = "";
-    document.getElementById("studentClass").value = "";
-    document.getElementById("division").selectedIndex = 0;
-    document.getElementById("rollNo").value = "";
-    document.getElementById("batchNo").value = "";
 
     closeModal();
     loadStudents();
     
   } catch (error) {
     alert("Database sync issue. Try again.");
+    console.error("Error saving document: ", error);
   }
 });
 
