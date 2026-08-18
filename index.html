@@ -130,7 +130,17 @@ input:focus, select:focus { border-color: var(--primary); }
 .edit-btn { color: #0284c7; }
 .edit-btn:hover { color: #0369a1; text-decoration: underline; }
 
-/* General Layout Items */
+/* Gallery Specific Layout */
+.gallery-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition);
+}
+.gallery-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.gallery-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.gallery-info { padding: 15px; }
+.gallery-info h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+.gallery-uploader { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+
 .section-wrapper { max-width: 1240px; margin: auto; padding: 0 20px 40px 20px; }
 .gallery-zone { text-align:center; padding: 40px 20px; border: 2px dashed var(--border-color); border-radius: var(--radius); color: var(--text-muted); font-weight: 500; }
 
@@ -216,7 +226,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
       </select>
     </div>
 
-    <div class="search-results-info" id="resultsCounter">Showing 0 matching profiles</div>
+    <div class="search-results-info" id="resultsCounter">Showing 0 matching student profile(s)</div>
 
     <div class="student-grid" id="studentList"></div>
   </div>
@@ -224,11 +234,16 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 
 <div class="section-wrapper" id="gallery">
   <div class="card">
-    <h2>📸 Gallery</h2>
-    <div class="gallery-zone">Photos section coming soon. Records optimization in progress.</div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+      <h2>📸 Photo Gallery</h2>
+      <button class="button" onclick="openGalleryModal()">📤 Upload Photo</button>
+    </div>
+    
+    <div class="student-grid" id="galleryGrid"></div>
   </div>
 </div>
 
+<!-- Student Modal -->
 <div class="modal" id="studentModal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
@@ -245,6 +260,20 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
     <input type="text" id="batchNo" placeholder="Batch Name (e.g. B1)">
 
     <button class="button" id="saveStudentBtn" style="width: 100%; justify-content: center; margin-top: 10px;">Save Profile</button>
+  </div>
+</div>
+
+<!-- Gallery Upload Modal -->
+<div class="modal" id="galleryModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeGalleryModal()">&times;</span>
+    <h2>Upload Photo</h2>
+    
+    <input type="text" id="uploaderName" placeholder="Your Name">
+    <input type="text" id="photoCaption" placeholder="Photo Title / Caption">
+    <input type="file" id="photoFile" accept="image/*" style="margin-bottom: 14px;">
+
+    <button class="button" id="uploadPhotoBtn" style="width: 100%; justify-content: center; margin-top: 10px;">Post Image</button>
   </div>
 </div>
 
@@ -362,6 +391,105 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Free ImgBB API Key Integrated
+const IMGBB_API_KEY = "8659ec697ff7979c94f892236a4729ad"; 
+
+window.openGalleryModal = function() {
+  document.getElementById("uploaderName").value = "";
+  document.getElementById("photoCaption").value = "";
+  document.getElementById("photoFile").value = "";
+  document.getElementById("galleryModal").style.display = "flex";
+}
+
+window.closeGalleryModal = function() {
+  document.getElementById("galleryModal").style.display = "none";
+}
+
+// Fetch Gallery from Firestore
+async function loadGallery() {
+  const galleryGrid = document.getElementById("galleryGrid");
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "gallery"));
+    galleryGrid.innerHTML = "";
+
+    if (querySnapshot.empty) {
+      galleryGrid.innerHTML = `<div style="grid-column: 1/-1;" class="gallery-zone">No photos posted yet. Be the first to upload!</div>`;
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const photoCard = `
+        <div class="gallery-card">
+          <img src="${data.imageUrl}" alt="${data.caption || 'Uploaded Photo'}">
+          <div class="gallery-info">
+            <h4>${data.caption || 'Untitled Photo'}</h4>
+            <div class="gallery-uploader">👤 Uploaded by: <strong>${data.uploaderName}</strong></div>
+          </div>
+        </div>
+      `;
+      galleryGrid.innerHTML += photoCard;
+    });
+  } catch (error) {
+    console.error("Error loading gallery:", error);
+  }
+}
+
+// Upload Photo via Free ImgBB API
+document.getElementById("uploadPhotoBtn").addEventListener("click", async () => {
+  const uploaderName = document.getElementById("uploaderName").value.trim();
+  const caption = document.getElementById("photoCaption").value.trim();
+  const fileInput = document.getElementById("photoFile");
+  const file = fileInput.files[0];
+
+  if (!uploaderName || !file) {
+    alert("Please enter your name and select an image file!");
+    return;
+  }
+
+  const uploadBtn = document.getElementById("uploadPhotoBtn");
+  uploadBtn.innerText = "Uploading...";
+  uploadBtn.disabled = true;
+
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      const imageUrl = result.data.url;
+
+      await addDoc(collection(db, "gallery"), {
+        uploaderName: uploaderName,
+        caption: caption,
+        imageUrl: imageUrl,
+        timestamp: new Date()
+      });
+
+      closeGalleryModal();
+      uploadBtn.innerText = "Post Image";
+      uploadBtn.disabled = false;
+      loadGallery();
+    } else {
+      alert("Image upload failed.");
+      uploadBtn.innerText = "Post Image";
+      uploadBtn.disabled = false;
+    }
+  } catch (error) {
+    console.error("Upload error:", error);
+    alert("Failed to upload image. Please try again.");
+    uploadBtn.innerText = "Post Image";
+    uploadBtn.disabled = false;
+  }
+});
+
 async function loadStudents() {
   try {
     const querySnapshot = await getDocs(collection(db, "students"));
@@ -443,6 +571,7 @@ document.getElementById("saveStudentBtn").addEventListener("click", async () => 
 });
 
 loadStudents();
+loadGallery();
 </script>
 </body>
 </html>
