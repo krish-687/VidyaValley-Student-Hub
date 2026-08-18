@@ -255,7 +255,6 @@ function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
 
 let localStudentsList = [];
 
-// Reset Modal Form
 function resetModalForm() {
   document.getElementById("editDocId").value = "";
   document.getElementById("name").value = "";
@@ -275,7 +274,6 @@ function closeModal() {
   document.getElementById("studentModal").style.display = "none";
 }
 
-// Global scope triggers for inline buttons
 window.openEditModal = function(id) {
   const student = localStudentsList.find(s => s.id === id);
   if (!student) return;
@@ -373,7 +371,6 @@ async function loadStudents() {
 
     querySnapshot.forEach((document) => {
       const data = document.data();
-      // Store document ID with local student object
       localStudentsList.push({ id: document.id, ...data });
       
       if(data.studentClass === "6") c6++;
@@ -396,7 +393,6 @@ async function loadStudents() {
   }
 }
 
-// Universal Submit Handler for Add & Edit
 document.getElementById("saveStudentBtn").addEventListener("click", async () => {
   const docId = document.getElementById("editDocId").value;
   const name = document.getElementById("name").value.trim();
@@ -412,11 +408,9 @@ document.getElementById("saveStudentBtn").addEventListener("click", async () => 
 
   try {
     if (docId) {
-      // Perform EDIT update
       const studentRef = doc(db, "students", docId);
       await updateDoc(studentRef, { name, studentClass, division, rollNo, batchNo });
     } else {
-      // Perform ADD duplicate check and new entry creation
       const querySnapshot = await getDocs(collection(db, "students"));
       let exists = false;
 
