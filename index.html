@@ -167,7 +167,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 </head>
 <body>
 
-<div class="notice-banner">📢 UPDATE: Real-time Live Chat System is active!</div>
+<div class="notice-banner">📢 UPDATE: Messages automatically disappear after 7 minutes!</div>
 
 <header>
   <img src="logo.png" class="logo" alt="School Logo">
@@ -247,10 +247,10 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 <div class="section-wrapper" id="chat">
   <div class="card">
     <h2>💬 Student Live Chat Room</h2>
-    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates live in real-time!</p>
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
     
     <div class="chat-box" id="chatMessagesContainer">
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-auto: 0;">Loading chat messages...</div>
+      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
     </div>
 
     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -382,7 +382,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
   </div>
 </div>
 
-<footer>© 2026 VidyaValley Student Hub Portal • Simple Clean Edition</footer>
+<footer>© 2026 VidyaValley Student Hub Portal • Auto-Expiring Chat Edition</footer>
 
 <script>
 function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
@@ -493,7 +493,7 @@ function filterAndSortRecords() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-qeWrDn8gqCyAMe8Z-Z3DHxXKagOHEA0",
@@ -509,36 +509,67 @@ const db = getFirestore(app);
 
 const IMGBB_API_KEY = "8659ec697ff7979c94f892236a4729ad"; 
 
-/* Real-time Chat System Integration */
+let rawChatDocs = [];
+
+/* Real-time Chat System with 7-Minute Auto-Disappear */
 function initChatSystem() {
   const chatBox = document.getElementById("chatMessagesContainer");
-  const chatQuery = query(collection(db, "chats"), orderBy("timestamp", "asc"));
+  const chatQuery = query(collection(db, "chats"), orderBy("createdAtMs", "asc"));
 
   onSnapshot(chatQuery, (snapshot) => {
-    chatBox.innerHTML = "";
-    if (snapshot.empty) {
-      chatBox.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">No chat messages yet. Start talking!</div>`;
+    rawChatDocs = [];
+    snapshot.forEach((docSnap) => {
+      rawChatDocs.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    renderChats();
+  });
+
+  // Check every 5 seconds to expire messages locally and clean up database
+  setInterval(renderChats, 5000);
+}
+
+function renderChats() {
+  const chatBox = document.getElementById("chatMessagesContainer");
+  const now = Date.now();
+  const SEVEN_MINUTES_MS = 7 * 60 * 1000;
+
+  chatBox.innerHTML = "";
+  let activeMsgCount = 0;
+
+  rawChatDocs.forEach(async (chat) => {
+    const createdAt = chat.createdAtMs || (chat.timestamp ? chat.timestamp.seconds * 1000 : now);
+    const age = now - createdAt;
+
+    // Delete expired messages from Firebase
+    if (age >= SEVEN_MINUTES_MS) {
+      try {
+        await deleteDoc(doc(db, "chats", chat.id));
+      } catch(err) {
+        console.error("Error purging old chat:", err);
+      }
       return;
     }
 
-    snapshot.forEach((doc) => {
-      const chat = doc.data();
-      const timeStr = chat.timestamp ? new Date(chat.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-      
-      const msgHTML = `
-        <div class="chat-msg">
-          <div class="chat-msg-header">
-            <span class="chat-msg-author">${chat.senderName}</span>
-            <span class="chat-msg-time">${timeStr}</span>
-          </div>
-          <div class="chat-msg-text">${chat.message}</div>
-        </div>
-      `;
-      chatBox.innerHTML += msgHTML;
-    });
+    activeMsgCount++;
+    const timeStr = new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    const msgHTML = `
+      <div class="chat-msg">
+        <div class="chat-msg-header">
+          <span class="chat-msg-author">${chat.senderName}</span>
+          <span class="chat-msg-time">${timeStr}</span>
+        </div>
+        <div class="chat-msg-text">${chat.message}</div>
+      </div>
+    `;
+    chatBox.innerHTML += msgHTML;
   });
+
+  if (activeMsgCount === 0) {
+    chatBox.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">No active messages. Messages disappear after 7 minutes!</div>`;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 document.getElementById("sendChatBtn").addEventListener("click", async () => {
@@ -554,6 +585,7 @@ document.getElementById("sendChatBtn").addEventListener("click", async () => {
     await addDoc(collection(db, "chats"), {
       senderName: senderName,
       message: message,
+      createdAtMs: Date.now(),
       timestamp: new Date()
     });
 
