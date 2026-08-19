@@ -58,18 +58,31 @@ header p { font-size: 1rem; opacity: 0.9; }
   border-radius: var(--radius); cursor:pointer; font-weight: 600; font-size: 0.85rem; margin-top: 15px;
 }
 
-/* Nav */
+/* Nav & Social Media Links */
 nav{background: #047857; padding: 0; position:sticky; top:0; z-index: 90; box-shadow: 0 4px 20px rgba(0,0,0,0.08);}
-nav .nav-container { max-width: 1240px; margin: auto; display: flex; justify-content: center; }
-nav a{color: rgba(255,255,255,0.8); text-decoration:none; padding: 16px 22px; font-weight: 600; font-size: 0.95rem; transition: var(--transition);}
+nav .nav-container { max-width: 1240px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+.nav-links { display: flex; flex-wrap: wrap; }
+nav a{color: rgba(255,255,255,0.8); text-decoration:none; padding: 16px 18px; font-weight: 600; font-size: 0.95rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px;}
 nav a:hover{color: #fff; background: rgba(255,255,255,0.1);}
+
+.social-bar { display: flex; gap: 8px; padding-right: 10px; }
+.social-btn {
+  background: rgba(255,255,255,0.15); color: #fff !important; padding: 8px 14px !important; 
+  border-radius: 20px; text-decoration: none; font-size: 0.85rem !important; font-weight: 600;
+  transition: var(--transition); border: 1px solid rgba(255,255,255,0.2);
+}
+.social-btn:hover { background: #e1306c !important; transform: translateY(-2px); }
 
 /* Layout */
 .main-dashboard {
   max-width: 1240px; margin: auto; padding: 40px 20px;
   display: grid; grid-template-columns: 1fr 2.5fr; gap: 30px;
 }
-@media (max-width: 900px) { .main-dashboard { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { 
+  .main-dashboard { grid-template-columns: 1fr; } 
+  nav .nav-container { flex-direction: column; padding: 10px 0; }
+  .social-bar { padding: 10px 0; }
+}
 
 .card{
   background: var(--bg-card); padding: 25px; border-radius: var(--radius); 
@@ -162,7 +175,10 @@ input:focus, select:focus { border-color: var(--primary); }
 .modal-content h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
 .modal-content input, .modal-content select { width: 100%; margin-bottom: 14px; }
 
-footer{background: #090d16; color: #64748b; text-align:center; padding:20px; font-size: 0.85rem; border-top: 1px solid var(--border-color);}
+footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px; font-size: 0.85rem; border-top: 1px solid var(--border-color);}
+.footer-socials { margin-top: 10px; display: flex; justify-content: center; gap: 15px; }
+.footer-socials a { color: #94a3b8; text-decoration: none; font-weight: 600; }
+.footer-socials a:hover { color: #e1306c; }
 </style>
 </head>
 <body>
@@ -178,10 +194,19 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 
 <nav>
   <div class="nav-container">
-    <a href="#home">Home</a>
-    <a href="#students">Directory</a>
-    <a href="#chat">Live Chat</a>
-    <a href="#gallery">Gallery</a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#students">Directory</a>
+      <a href="#chat">Live Chat</a>
+      <a href="#gallery">Gallery</a>
+    </div>
+    
+    <!-- Instagram Link Button -->
+    <div class="social-bar">
+      <a href="https://www.instagram.com/vidya_valley_school/" target="_blank" class="social-btn">
+        📸 Instagram
+      </a>
+    </div>
   </div>
 </nav>
 
@@ -382,7 +407,12 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
   </div>
 </div>
 
-<footer>© 2026 VidyaValley Student Hub Portal • Auto-Expiring Chat Edition</footer>
+<footer>
+  <div>© 2026 VidyaValley Student Hub Portal • Auto-Expiring Chat Edition</div>
+  <div class="footer-socials">
+    <a href="https://www.instagram.com/vidya_valley_school/" target="_blank">📸 Follow Us on Instagram</a>
+  </div>
+</footer>
 
 <script>
 function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
