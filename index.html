@@ -129,7 +129,19 @@ input:focus, select:focus { border-color: var(--primary); }
 .edit-btn { color: #0284c7; }
 .edit-btn:hover { color: #0369a1; text-decoration: underline; }
 
-/* Gallery Specific Layout */
+/* Chat Section Styles */
+.chat-box {
+  height: 320px; overflow-y: auto; border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 15px; background: rgba(0,0,0,0.02);
+  display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;
+}
+.chat-msg { background: var(--bg-card); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 85%; }
+.chat-msg-header { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 4px; font-size: 0.75rem; }
+.chat-msg-author { font-weight: bold; color: var(--primary); }
+.chat-msg-time { color: var(--text-muted); }
+.chat-msg-text { font-size: 0.9rem; word-wrap: break-word; color: var(--text-main); }
+
+/* Gallery Layout */
 .gallery-card {
   background: var(--bg-card); border: 1px solid var(--border-color);
   border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition);
@@ -155,7 +167,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
 </head>
 <body>
 
-<div class="notice-banner">📢 UPDATE: Class Stats and Live Filters are fully optimized!</div>
+<div class="notice-banner">📢 UPDATE: Real-time Live Chat System is active!</div>
 
 <header>
   <img src="logo.png" class="logo" alt="School Logo">
@@ -168,6 +180,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
   <div class="nav-container">
     <a href="#home">Home</a>
     <a href="#students">Directory</a>
+    <a href="#chat">Live Chat</a>
     <a href="#gallery">Gallery</a>
   </div>
 </nav>
@@ -230,6 +243,24 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
   </div>
 </div>
 
+<!-- Real-time Live Chat Section -->
+<div class="section-wrapper" id="chat">
+  <div class="card">
+    <h2>💬 Student Live Chat Room</h2>
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates live in real-time!</p>
+    
+    <div class="chat-box" id="chatMessagesContainer">
+      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-auto: 0;">Loading chat messages...</div>
+    </div>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
+      <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
+      <button class="button" id="sendChatBtn">💬 Send</button>
+    </div>
+  </div>
+</div>
+
 <div class="section-wrapper" id="gallery">
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
@@ -275,7 +306,7 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
   </div>
 </div>
 
-<!-- Simplified Clean Digital ID Card Modal -->
+<!-- ID Card Modal -->
 <div class="modal" id="idCardModal">
   <div class="modal-content" style="max-width: 380px; padding: 20px; background: #0f172a; border-radius: 16px;">
     <span class="close" onclick="closeIdCardModal()" style="z-index: 10;">&times;</span>
@@ -292,7 +323,6 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
       color: #1e293b;
       padding-bottom: 20px;
     ">
-      <!-- Top Header Graphic -->
       <div style="
         background: linear-gradient(135deg, #15803d 0%, #22c55e 100%); 
         height: 85px; 
@@ -305,7 +335,6 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
         <div style="font-size: 0.75rem; color: #ffffff; font-weight: 800; letter-spacing: 1px;">INTERNATIONAL SCHOOL</div>
       </div>
 
-      <!-- Academic Year Badge -->
       <div style="margin-top: -12px;">
         <span style="
           background: #334155; 
@@ -318,17 +347,14 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
         ">Academic Year- 2026-2027</span>
       </div>
 
-      <!-- Photo Frame -->
       <div style="margin: 16px auto 12px auto; width: 110px; height: 130px; border: 2px solid #16a34a; border-radius: 6px; padding: 2px; background: #fff;">
         <img id="cardPhoto" src="https://api.dicebear.com/7.x/bottts/svg?seed=student" alt="Student Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
       </div>
 
-      <!-- Student Name -->
       <div id="cardName" style="font-size: 1.1rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 10px; margin-bottom: 15px;">
         STUDENT NAME
       </div>
 
-      <!-- Dynamic Details Container (Class, Division, Roll No, Batch) -->
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin: 0 20px; padding: 12px 16px; font-size: 0.85rem; color: #334155; font-weight: 700; line-height: 1.8; text-align: left;">
         <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 4px;">
           <span>Class & Division:</span>
@@ -344,13 +370,11 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:20px; fon
         </div>
       </div>
 
-      <!-- Principal Signature Footer -->
       <div style="margin-top: 18px; text-align: right; padding-right: 25px;">
         <div style="font-family: 'Brush Script MT', cursive, sans-serif; font-size: 1.2rem; color: #0f172a; font-weight: bold;">Randive</div>
         <div style="font-size: 0.75rem; font-weight: 800; color: #16a34a; margin-top: -4px;">Principal</div>
       </div>
 
-      <!-- Bottom Green Bar -->
       <div style="background: #16a34a; height: 10px; width: 100%; position: absolute; bottom: 0;"></div>
     </div>
 
@@ -469,7 +493,7 @@ function filterAndSortRecords() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-qeWrDn8gqCyAMe8Z-Z3DHxXKagOHEA0",
@@ -484,6 +508,60 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const IMGBB_API_KEY = "8659ec697ff7979c94f892236a4729ad"; 
+
+/* Real-time Chat System Integration */
+function initChatSystem() {
+  const chatBox = document.getElementById("chatMessagesContainer");
+  const chatQuery = query(collection(db, "chats"), orderBy("timestamp", "asc"));
+
+  onSnapshot(chatQuery, (snapshot) => {
+    chatBox.innerHTML = "";
+    if (snapshot.empty) {
+      chatBox.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">No chat messages yet. Start talking!</div>`;
+      return;
+    }
+
+    snapshot.forEach((doc) => {
+      const chat = doc.data();
+      const timeStr = chat.timestamp ? new Date(chat.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+      
+      const msgHTML = `
+        <div class="chat-msg">
+          <div class="chat-msg-header">
+            <span class="chat-msg-author">${chat.senderName}</span>
+            <span class="chat-msg-time">${timeStr}</span>
+          </div>
+          <div class="chat-msg-text">${chat.message}</div>
+        </div>
+      `;
+      chatBox.innerHTML += msgHTML;
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+}
+
+document.getElementById("sendChatBtn").addEventListener("click", async () => {
+  const senderName = document.getElementById("chatSenderName").value.trim();
+  const message = document.getElementById("chatMessageInput").value.trim();
+
+  if (!senderName || !message) {
+    alert("Please enter both your name and a message!");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "chats"), {
+      senderName: senderName,
+      message: message,
+      timestamp: new Date()
+    });
+
+    document.getElementById("chatMessageInput").value = "";
+  } catch (err) {
+    console.error("Error sending chat:", err);
+  }
+});
 
 window.openGalleryModal = function() {
   document.getElementById("uploaderName").value = "";
@@ -661,6 +739,7 @@ document.getElementById("saveStudentBtn").addEventListener("click", async () => 
 
 loadStudents();
 loadGallery();
+initChatSystem();
 </script>
 </body>
 </html>
