@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VidyaValley Student Hub</title>
 
+<!-- PWA Manifest & Mobile Config -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10b981">
+<link rel="apple-touch-icon" href="logo.png">
+
 <style>
 /* Modern & Clean Design System */
 :root {
@@ -201,7 +206,6 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
       <a href="#gallery">Gallery</a>
     </div>
     
-    <!-- Instagram Link Button -->
     <div class="social-bar">
       <a href="https://www.instagram.com/vidya_valley_school/" target="_blank" class="social-btn">
         📸 Instagram
@@ -210,7 +214,9 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
   </div>
 </nav>
 
+<!-- Main Central Dashboard Grid -->
 <div class="main-dashboard" id="home">
+  <!-- Left Side: Stats & Info -->
   <div style="display: flex; flex-direction: column; gap: 20px;">
     <div class="stat-box">
       <h4 id="totalCounter">0</h4>
@@ -228,61 +234,65 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
 
     <div class="card">
       <h2>👋 Welcome</h2>
-      <p style="color: var(--text-muted); line-height: 1.5; font-size: 0.9rem;">This is the official Student Hub page for VidyaValley. It is designed to easily find your classmates, sort details, and check batch records.</p>
+      <p style="color: var(--text-muted); line-height: 1.5; font-size: 0.9rem;">This is the official Student Hub page for VidyaValley. It is designed to easily find your classmates, sort details, check batch records, and chat live in real-time.</p>
     </div>
   </div>
 
-  <div class="card" id="students">
-    <h2>⚡ Student Directory</h2><br>
+  <!-- Central Main Panel: Live Chat directly in the middle center -->
+  <div style="display: flex; flex-direction: column; gap: 30px;">
     
-    <div class="controls-row">
-      <button class="button" onclick="openAddModal()">➕ Add New Student</button>
-      <input type="text" id="search" placeholder="🔍 Type name to search..." onkeyup="filterAndSortRecords()">
+    <!-- Real-time Live Chat Section placed centrally -->
+    <div class="card" id="chat">
+      <h2>💬 Student Live Chat Room</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
       
-      <select id="classFilter" onchange="filterAndSortRecords()">
-        <option value="all">All Classes</option>
-        <option value="6">Class 6</option>
-        <option value="7">Class 7</option>
-        <option value="8">Class 8</option>
-        <option value="9">Class 9</option>
-        <option value="10">Class 10</option>
-      </select>
+      <div class="chat-box" id="chatMessagesContainer">
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
+      </div>
 
-      <select id="divFilter" onchange="filterAndSortRecords()">
-        <option value="all">All Divisions</option>
-        <option value="A">Division A</option>
-        <option value="B">Division B</option>
-        <option value="C">Division C</option>
-      </select>
-
-      <select id="sortControl" onchange="filterAndSortRecords()">
-        <option value="none">Sort: Default</option>
-        <option value="nameAsc">Name: A to Z</option>
-        <option value="rollAsc">Roll No: Low to High</option>
-      </select>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
+        <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
+        <button class="button" id="sendChatBtn">💬 Send</button>
+      </div>
     </div>
 
-    <div class="search-results-info" id="resultsCounter">Showing 0 matching student profile(s)</div>
+    <!-- Student Directory directly below Chat -->
+    <div class="card" id="students">
+      <h2>⚡ Student Directory</h2><br>
+      
+      <div class="controls-row">
+        <button class="button" onclick="openAddModal()">➕ Add New Student</button>
+        <input type="text" id="search" placeholder="🔍 Type name to search..." onkeyup="filterAndSortRecords()">
+        
+        <select id="classFilter" onchange="filterAndSortRecords()">
+          <option value="all">All Classes</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8">Class 8</option>
+          <option value="9">Class 9</option>
+          <option value="10">Class 10</option>
+        </select>
 
-    <div class="student-grid" id="studentList"></div>
-  </div>
-</div>
+        <select id="divFilter" onchange="filterAndSortRecords()">
+          <option value="all">All Divisions</option>
+          <option value="A">Division A</option>
+          <option value="B">Division B</option>
+          <option value="C">Division C</option>
+        </select>
 
-<!-- Real-time Live Chat Section -->
-<div class="section-wrapper" id="chat">
-  <div class="card">
-    <h2>💬 Student Live Chat Room</h2>
-    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
-    
-    <div class="chat-box" id="chatMessagesContainer">
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
+        <select id="sortControl" onchange="filterAndSortRecords()">
+          <option value="none">Sort: Default</option>
+          <option value="nameAsc">Name: A to Z</option>
+          <option value="rollAsc">Roll No: Low to High</option>
+        </select>
+      </div>
+
+      <div class="search-results-info" id="resultsCounter">Showing 0 matching student profile(s)</div>
+
+      <div class="student-grid" id="studentList"></div>
     </div>
 
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-      <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
-      <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
-      <button class="button" id="sendChatBtn">💬 Send</button>
-    </div>
   </div>
 </div>
 
@@ -554,7 +564,6 @@ function initChatSystem() {
     renderChats();
   });
 
-  // Check every 5 seconds to expire messages locally and clean up database
   setInterval(renderChats, 5000);
 }
 
@@ -570,7 +579,6 @@ function renderChats() {
     const createdAt = chat.createdAtMs || (chat.timestamp ? chat.timestamp.seconds * 1000 : now);
     const age = now - createdAt;
 
-    // Delete expired messages from Firebase
     if (age >= SEVEN_MINUTES_MS) {
       try {
         await deleteDoc(doc(db, "chats", chat.id));
@@ -802,6 +810,17 @@ document.getElementById("saveStudentBtn").addEventListener("click", async () => 
 loadStudents();
 loadGallery();
 initChatSystem();
+</script>
+
+<!-- PWA Service Worker Registration -->
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => console.log("PWA Service Worker Registered!"))
+        .catch((err) => console.log("Service Worker Failed:", err));
+    });
+  }
 </script>
 </body>
 </html>
