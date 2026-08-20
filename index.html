@@ -153,17 +153,16 @@ nav a:hover{color: #fff; background: rgba(255,255,255,0.1);}
 }
 .social-btn:hover { background: #e1306c !important; transform: translateY(-2px); }
 
-/* Layout */
+/* Layout - Full Width Single Column (Option 1) */
 .main-dashboard {
   max-width: 1240px; 
   margin: auto; 
   padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
+  display: flex; 
+  flex-direction: column; 
   gap: 30px;
 }
 @media (max-width: 900px) { 
-  .main-dashboard { grid-template-columns: 1fr; } 
   nav .nav-container { flex-direction: column; padding: 10px 0; }
   .social-bar { padding: 10px 0; }
 }
@@ -174,15 +173,25 @@ nav a:hover{color: #fff; background: rgba(255,255,255,0.1);}
 }
 .card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: var(--text-main); }
 
-/* Left Panel Stats Widgets */
-.stat-box { background: var(--bg-card); padding: 18px; border-radius: var(--radius); border: 1px solid var(--border-color); text-align: center; margin-bottom: 20px; }
-.stat-box h4 { font-size: 2rem; color: var(--primary); font-weight: 800; }
+/* Stats Row Grid (Top Section) */
+.stats-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  gap: 20px;
+}
+@media (max-width: 850px) {
+  .stats-summary-grid { grid-template-columns: 1fr; }
+}
+
+.stat-box { background: var(--bg-card); padding: 18px; border-radius: var(--radius); border: 1px solid var(--border-color); text-align: center; display: flex; flex-direction: column; justify-content: center; }
+.stat-box h4 { font-size: 2.2rem; color: var(--primary); font-weight: 800; }
 .stat-box p { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; margin-top: 2px; }
 
 .class-breakdown { background: var(--bg-card); padding: 18px; border-radius: var(--radius); border: 1px solid var(--border-color); }
-.class-row { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
-.class-row:last-child { border-bottom: none; }
-.class-count-badge { background: var(--border-color); padding: 2px 8px; border-radius: 20px; font-size: 0.8rem; }
+.class-row-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; text-align: center; margin-top: 10px; }
+.class-chip { background: var(--bg-gradient); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); }
+.class-chip label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; display: block; }
+.class-chip span { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
 
 /* Filter Bar controls */
 .controls-row { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
@@ -324,97 +333,96 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
 
 <!-- Main Central Dashboard Grid -->
 <div class="main-dashboard" id="home">
-  <!-- Left Side: Stats & Info -->
-  <div style="display: flex; flex-direction: column; gap: 20px;">
+
+  <!-- Top Stats Row -->
+  <div class="stats-summary-grid">
     <div class="stat-box">
       <h4 id="totalCounter">0</h4>
-      <p>TOTAL REGISTERED STUDENTS</p>
+      <p>REGISTERED STUDENTS</p>
     </div>
 
     <div class="class-breakdown">
-      <h3 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-muted)">CLASS SUMMARY</h3>
-      <div class="class-row"><span>Class 6</span><span class="class-count-badge" id="c6Count">0</span></div>
-      <div class="class-row"><span>Class 7</span><span class="class-count-badge" id="c7Count">0</span></div>
-      <div class="class-row"><span>Class 8</span><span class="class-count-badge" id="c8Count">0</span></div>
-      <div class="class-row"><span>Class 9</span><span class="class-count-badge" id="c9Count">0</span></div>
-      <div class="class-row"><span>Class 10</span><span class="class-count-badge" id="c10Count">0</span></div>
+      <h3 style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">CLASS SUMMARY</h3>
+      <div class="class-row-grid">
+        <div class="class-chip"><label>Class 6</label><span id="c6Count">0</span></div>
+        <div class="class-chip"><label>Class 7</label><span id="c7Count">0</span></div>
+        <div class="class-chip"><label>Class 8</label><span id="c8Count">0</span></div>
+        <div class="class-chip"><label>Class 9</label><span id="c9Count">0</span></div>
+        <div class="class-chip"><label>Class 10</label><span id="c10Count">0</span></div>
+      </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="padding: 18px;">
       <h2>👋 Welcome</h2>
-      <p style="color: var(--text-muted); line-height: 1.5; font-size: 0.9rem;">This is the official Student Hub page for VidyaValley. It is designed to easily find your classmates, sort details, check batch records, showcase video & coding projects, and chat live in real-time.</p>
+      <p style="color: var(--text-muted); line-height: 1.4; font-size: 0.85rem;">This is the official Student Hub page for VidyaValley. Find classmates, sort details, check batch records, showcase video & coding projects, and chat live in real-time.</p>
     </div>
   </div>
 
-  <!-- Central Main Panel -->
-  <div style="display: flex; flex-direction: column; gap: 30px;">
+  <!-- Student Directory Section -->
+  <div class="card" id="students">
+    <h2>⚡ Student Directory</h2><br>
     
-    <!-- Student Directory Section -->
-    <div class="card" id="students">
-      <h2>⚡ Student Directory</h2><br>
+    <div class="controls-row">
+      <button class="button" onclick="openAddModal()">➕ Add New Student</button>
+      <input type="text" id="search" placeholder="🔍 Type name to search..." onkeyup="filterAndSortRecords()">
       
-      <div class="controls-row">
-        <button class="button" onclick="openAddModal()">➕ Add New Student</button>
-        <input type="text" id="search" placeholder="🔍 Type name to search..." onkeyup="filterAndSortRecords()">
-        
-        <select id="classFilter" onchange="filterAndSortRecords()">
-          <option value="all">All Classes</option>
-          <option value="6">Class 6</option>
-          <option value="7">Class 7</option>
-          <option value="8">Class 8</option>
-          <option value="9">Class 9</option>
-          <option value="10">Class 10</option>
-        </select>
+      <select id="classFilter" onchange="filterAndSortRecords()">
+        <option value="all">All Classes</option>
+        <option value="6">Class 6</option>
+        <option value="7">Class 7</option>
+        <option value="8">Class 8</option>
+        <option value="9">Class 9</option>
+        <option value="10">Class 10</option>
+      </select>
 
-        <select id="divFilter" onchange="filterAndSortRecords()">
-          <option value="all">All Divisions</option>
-          <option value="A">Division A</option>
-          <option value="B">Division B</option>
-          <option value="C">Division C</option>
-        </select>
+      <select id="divFilter" onchange="filterAndSortRecords()">
+        <option value="all">All Divisions</option>
+        <option value="A">Division A</option>
+        <option value="B">Division B</option>
+        <option value="C">Division C</option>
+      </select>
 
-        <select id="sortControl" onchange="filterAndSortRecords()">
-          <option value="none">Sort: Default</option>
-          <option value="nameAsc">Name: A to Z</option>
-          <option value="rollAsc">Roll No: Low to High</option>
-        </select>
-      </div>
-
-      <div class="search-results-info" id="resultsCounter">Showing 0 matching student profile(s)</div>
-
-      <div class="student-grid" id="studentList"></div>
+      <select id="sortControl" onchange="filterAndSortRecords()">
+        <option value="none">Sort: Default</option>
+        <option value="nameAsc">Name: A to Z</option>
+        <option value="rollAsc">Roll No: Low to High</option>
+      </select>
     </div>
 
-    <!-- Real-time Live Chat Section -->
-    <div class="card" id="chat">
-      <h2>💬 Student Live Chat Room</h2>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
-      
-      <div class="chat-box" id="chatMessagesContainer">
-        <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
-      </div>
+    <div class="search-results-info" id="resultsCounter">Showing 0 matching student profile(s)</div>
 
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
-        <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
-        <button class="button" id="sendChatBtn">💬 Send</button>
-      </div>
-    </div>
-
-    <!-- Student Project Showcase Section (Placed Last) -->
-    <div class="card" id="showcase">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-        <div>
-          <h2>🚀 Student Project Showcase</h2>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Discover awesome videos, coding apps, and creative projects by fellow students!</p>
-        </div>
-        <button class="button" onclick="openAddProjectModal()">💡 Publish Project</button>
-      </div>
-
-      <div class="student-grid" id="projectsGrid"></div>
-    </div>
-
+    <div class="student-grid" id="studentList"></div>
   </div>
+
+  <!-- Real-time Live Chat Section -->
+  <div class="card" id="chat">
+    <h2>💬 Student Live Chat Room</h2>
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
+    
+    <div class="chat-box" id="chatMessagesContainer">
+      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
+    </div>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
+      <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
+      <button class="button" id="sendChatBtn">💬 Send</button>
+    </div>
+  </div>
+
+  <!-- Student Project Showcase Section -->
+  <div class="card" id="showcase">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+      <div>
+        <h2>🚀 Student Project Showcase</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Discover awesome videos, coding apps, and creative projects by fellow students!</p>
+      </div>
+      <button class="button" onclick="openAddProjectModal()">💡 Publish Project</button>
+    </div>
+
+    <div class="student-grid" id="projectsGrid"></div>
+  </div>
+
 </div>
 
 <div class="section-wrapper" id="gallery">
