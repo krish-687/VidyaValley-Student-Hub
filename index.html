@@ -155,8 +155,12 @@ nav a:hover{color: #fff; background: rgba(255,255,255,0.1);}
 
 /* Layout */
 .main-dashboard {
-  max-width: 1240px; margin: auto; padding: 40px 20px;
-  display: grid; grid-template-columns: 1fr 2.5fr; gap: 30px;
+  max-width: 1240px; 
+  margin: auto; 
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 @media (max-width: 900px) { 
   .main-dashboard { grid-template-columns: 1fr; } 
