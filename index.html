@@ -11,11 +11,13 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* Modern & Clean Design System */
+/* Base Design Variables */
 :root {
   --primary: #10b981;
   --primary-glow: rgba(16, 185, 129, 0.2);
   --primary-dark: #059669;
+  --header-bg: linear-gradient(135deg, #022c22, #065f46);
+  --nav-bg: #047857;
   --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   --bg-card: #ffffff;
   --text-main: #0f172a;
@@ -27,10 +29,55 @@
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark-mode {
+/* Custom Theme Presets */
+body[data-theme="midnight"] {
+  --primary: #38bdf8;
+  --primary-glow: rgba(56, 189, 248, 0.25);
+  --primary-dark: #0284c7;
+  --header-bg: linear-gradient(135deg, #030712, #0f172a);
+  --nav-bg: #1e293b;
+  --bg-gradient: linear-gradient(135deg, #090d16 0%, #030712 100%);
+  --bg-card: #0f172a;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #1e293b;
+  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+body[data-theme="sunset"] {
+  --primary: #f97316;
+  --primary-glow: rgba(249, 115, 22, 0.25);
+  --primary-dark: #ea580c;
+  --header-bg: linear-gradient(135deg, #431407, #7c2d12);
+  --nav-bg: #9a3412;
+  --bg-gradient: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  --bg-card: #ffffff;
+  --text-main: #1c1917;
+  --text-muted: #78716c;
+  --border-color: #fed7aa;
+  --shadow-lg: 0 20px 25px -5px rgba(249, 115, 22, 0.1);
+}
+
+body[data-theme="purple"] {
+  --primary: #a855f7;
+  --primary-glow: rgba(168, 85, 247, 0.25);
+  --primary-dark: #9333ea;
+  --header-bg: linear-gradient(135deg, #2e1065, #581c87);
+  --nav-bg: #6b21a8;
+  --bg-gradient: linear-gradient(135deg, #0f0720 0%, #05020a 100%);
+  --bg-card: #180d30;
+  --text-main: #faf5ff;
+  --text-muted: #a855f7;
+  --border-color: #3b0764;
+  --shadow-lg: 0 25px 50px -12px rgba(168, 85, 247, 0.2);
+}
+
+body[data-theme="dark"] {
   --primary: #34d399;
   --primary-glow: rgba(52, 211, 153, 0.25);
   --primary-dark: #059669;
+  --header-bg: linear-gradient(135deg, #111827, #1f2937);
+  --nav-bg: #1f2937;
   --bg-gradient: linear-gradient(135deg, #0f172a 0%, #020617 100%);
   --bg-card: #1e293b;
   --text-main: #f8fafc;
@@ -43,7 +90,7 @@
 body{background: var(--bg-gradient); color: var(--text-main); transition: var(--transition); min-height: 100vh;}
 
 /* Header & Announcement */
-header{background: linear-gradient(135deg, #022c22, #065f46); color:#fff; padding: 50px 20px; text-align:center; position: relative;}
+header{background: var(--header-bg); color:#fff; padding: 50px 20px; text-align:center; position: relative;}
 header h1 { font-size: 2.3rem; font-weight: 700; margin-bottom: 6px; }
 header p { font-size: 1rem; opacity: 0.9; }
 
@@ -58,13 +105,41 @@ header p { font-size: 1rem; opacity: 0.9; }
 }
 .logo:hover { transform: scale(1.05); }
 
-.dark-btn{
-  background: rgba(255,255,255,0.12); color:#fff; padding: 8px 18px; border: 1px solid rgba(255,255,255,0.2);
-  border-radius: var(--radius); cursor:pointer; font-weight: 600; font-size: 0.85rem; margin-top: 15px;
+/* Theme Selector Control */
+.theme-select-container {
+  margin-top: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* Nav & Social Media Links */
-nav{background: #047857; padding: 0; position:sticky; top:0; z-index: 90; box-shadow: 0 4px 20px rgba(0,0,0,0.08);}
+.theme-select-container label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.theme-dropdown {
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.theme-dropdown option {
+  background: #0f172a;
+  color: #fff;
+}
+
+/* Nav & Social Links */
+nav{background: var(--nav-bg); padding: 0; position:sticky; top:0; z-index: 90; box-shadow: 0 4px 20px rgba(0,0,0,0.08);}
 nav .nav-container { max-width: 1240px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
 .nav-links { display: flex; flex-wrap: wrap; }
 nav a{color: rgba(255,255,255,0.8); text-decoration:none; padding: 16px 18px; font-weight: 600; font-size: 0.95rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px;}
@@ -133,21 +208,21 @@ input:focus, select:focus { border-color: var(--primary); }
 .student:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: var(--shadow-lg); }
 .student h3{color: var(--text-main); font-size: 1.15rem; margin-bottom: 10px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;}
 
-.batch-pill { font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: bold; background: #e0f2fe; color: #0369a1; }
+.batch-pill { font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: bold; background: var(--primary-glow); color: var(--primary); }
 
 .student p{font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 4px;}
 .student p:last-of-type { border-bottom: none; }
 .student p span { font-weight: 700; color: var(--text-main); }
 
-/* Buttons inside Cards */
+/* Actions */
 .card-actions { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
 .print-btn, .edit-btn { background: none; border: none; cursor: pointer; font-size: 0.85rem; transition: var(--transition); text-align: left; font-weight: 600;}
 .print-btn { color: var(--text-muted); text-decoration: underline; }
 .print-btn:hover { color: var(--primary); }
-.edit-btn { color: #0284c7; }
-.edit-btn:hover { color: #0369a1; text-decoration: underline; }
+.edit-btn { color: var(--primary); }
+.edit-btn:hover { text-decoration: underline; }
 
-/* Chat Section Styles */
+/* Chat Section */
 .chat-box {
   height: 320px; overflow-y: auto; border: 1px solid var(--border-color);
   border-radius: var(--radius); padding: 15px; background: rgba(0,0,0,0.02);
@@ -159,7 +234,7 @@ input:focus, select:focus { border-color: var(--primary); }
 .chat-msg-time { color: var(--text-muted); }
 .chat-msg-text { font-size: 0.9rem; word-wrap: break-word; color: var(--text-main); }
 
-/* Gallery Layout */
+/* Gallery */
 .gallery-card {
   background: var(--bg-card); border: 1px solid var(--border-color);
   border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition);
@@ -173,7 +248,7 @@ input:focus, select:focus { border-color: var(--primary); }
 .section-wrapper { max-width: 1240px; margin: auto; padding: 0 20px 40px 20px; }
 .gallery-zone { text-align:center; padding: 40px 20px; border: 2px dashed var(--border-color); border-radius: var(--radius); color: var(--text-muted); font-weight: 500; }
 
-/* Modal popup form */
+/* Modals */
 .modal{display:none; position:fixed; inset:0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content:center; align-items:center; z-index: 100;}
 .modal-content{background: var(--bg-card); padding: 30px; border-radius: var(--radius); width: 92%; max-width: 440px; border: 1px solid var(--border-color); position: relative; box-shadow: var(--shadow-lg);}
 .close{position: absolute; top: 20px; right: 20px; cursor:pointer; font-size:22px; color: var(--text-muted); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--border-color);}
@@ -194,15 +269,25 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
   <img src="logo.png" class="logo" alt="School Logo">
   <h1>🏫 VidyaValley Student Hub</h1>
   <p>Simple Class Directory & Smart Records</p>
-  <button class="dark-btn" onclick="toggleDarkMode()">✨ Change Theme</button>
+  
+  <div class="theme-select-container">
+    <label for="themePresetSelector">🎨 Theme Preset:</label>
+    <select id="themePresetSelector" class="theme-dropdown" onchange="changeThemePreset(this.value)">
+      <option value="emerald">🟢 Emerald Green (Default)</option>
+      <option value="midnight">🌌 Midnight Blue</option>
+      <option value="sunset">🌅 Sunset Orange</option>
+      <option value="purple">🔮 Purple Cyber</option>
+      <option value="dark">🌙 Clean Dark Mode</option>
+    </select>
+  </div>
 </header>
 
 <nav>
   <div class="nav-container">
     <div class="nav-links">
       <a href="#home">Home</a>
-      <a href="#chat">Live Chat</a>
       <a href="#students">Directory</a>
+      <a href="#chat">Live Chat</a>
       <a href="#gallery">Gallery</a>
     </div>
     
@@ -425,7 +510,22 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
 </footer>
 
 <script>
-function toggleDarkMode(){document.body.classList.toggle("dark-mode");}
+/* Theme Preset Switcher with LocalStorage Memory */
+function changeThemePreset(themeName) {
+  if (themeName === "emerald") {
+    document.body.removeAttribute("data-theme");
+  } else {
+    document.body.setAttribute("data-theme", themeName);
+  }
+  localStorage.setItem("selectedThemePreset", themeName);
+}
+
+// Restore saved theme on page reload
+window.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("selectedThemePreset") || "emerald";
+  document.getElementById("themePresetSelector").value = savedTheme;
+  changeThemePreset(savedTheme);
+});
 
 let localStudentsList = [];
 
@@ -551,7 +651,6 @@ const IMGBB_API_KEY = "8659ec697ff7979c94f892236a4729ad";
 
 let rawChatDocs = [];
 
-/* Real-time Chat System with 7-Minute Auto-Disappear */
 function initChatSystem() {
   const chatBox = document.getElementById("chatMessagesContainer");
   const chatQuery = query(collection(db, "chats"), orderBy("createdAtMs", "asc"));
