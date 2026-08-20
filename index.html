@@ -238,26 +238,10 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
     </div>
   </div>
 
-  <!-- Central Main Panel: Live Chat directly in the middle center -->
+  <!-- Central Main Panel: Directory First, Then Live Chat -->
   <div style="display: flex; flex-direction: column; gap: 30px;">
     
-    <!-- Real-time Live Chat Section placed centrally -->
-    <div class="card" id="chat">
-      <h2>💬 Student Live Chat Room</h2>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
-      
-      <div class="chat-box" id="chatMessagesContainer">
-        <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
-      </div>
-
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
-        <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
-        <button class="button" id="sendChatBtn">💬 Send</button>
-      </div>
-    </div>
-
-    <!-- Student Directory directly below Chat -->
+    <!-- Student Directory Section (First) -->
     <div class="card" id="students">
       <h2>⚡ Student Directory</h2><br>
       
@@ -291,6 +275,22 @@ footer{background: #090d16; color: #64748b; text-align:center; padding:25px 20px
       <div class="search-results-info" id="resultsCounter">Showing 0 matching student profile(s)</div>
 
       <div class="student-grid" id="studentList"></div>
+    </div>
+
+    <!-- Real-time Live Chat Section (Second) -->
+    <div class="card" id="chat">
+      <h2>💬 Student Live Chat Room</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Connect with your schoolmates! <em>(Messages automatically disappear after 7 minutes)</em></p>
+      
+      <div class="chat-box" id="chatMessagesContainer">
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: auto;">Loading chat messages...</div>
+      </div>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="chatSenderName" placeholder="Your Name" style="max-width: 160px;">
+        <input type="text" id="chatMessageInput" placeholder="Type a message..." style="flex: 2;">
+        <button class="button" id="sendChatBtn">💬 Send</button>
+      </div>
     </div>
 
   </div>
